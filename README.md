@@ -1,16 +1,29 @@
-# barber
+# BarberWise - App para Barberos
 
-A new Flutter project.
+**Barber Wise** es una aplicación móvil desarrollada en Flutter que permite a barberos gestionar sus reservas de turnos y acceder a estadísticas sobre su trabajo diario y semanal. La app está enfocada en ofrecer una experiencia simple, clara y eficiente para profesionales del rubro.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Características principales
 
-A few resources to get you started if this is your first Flutter project:
+- Registro e inicio de sesión de barberos.
+- Visualización del próximo turno del día.
+- Resumen diario: turnos realizados, ganancias del día y turnos restantes.
+- Estadísticas por rango de fechas.
+- Vista de calendario con gestión de reservas.
+- Edición de perfil de barbero.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tecnologías utilizadas
+
+- **Flutter** (SDK móvil multiplataforma)
+- **Dart** (lenguaje principal)
+- **Riverpod** (gestión de estado)
+---
+
+## Historias de usuario
+
+Puedes consultar todas las historias de usuario [aqui](./docs/user-stories.md)
+
+
