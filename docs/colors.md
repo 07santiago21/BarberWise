@@ -1,13 +1,14 @@
-# Paleta de Colores - Barber Manager
+# Paleta de Colores - Barber Wise
 
-Esta es la paleta de colores oficial utilizada en la app **Barber Manager**.
+Esta es la paleta de colores oficial utilizada en la app **Barber Wise**.
 
-| Color               | Uso principal                             | Hex        | Muestra                          |
-|---------------------|-------------------------------------------|------------|----------------------------------|
-| **Gris claro**       | Fondo general de la app                   | `#F5F5F5`  | <div style="width:80px;height:20px;background:#F5F5F5;border:1px solid #ccc;"></div> |
-| **Negro**            | Botones, títulos, texto importante        | `#000000`  | <div style="width:80px;height:20px;background:#000000;"></div>                       |
-| **Blanco**           | Texto sobre botones oscuros o fondos oscuros | `#FFFFFF`  | <div style="width:80px;height:20px;background:#FFFFFF;border:1px solid #ccc;"></div> |
-| **Verde**            | Indicadores de éxito (turno confirmado)   | `#4CAF50`  | <div style="width:80px;height:20px;background:#4CAF50;"></div>                       |
-| **Rojo**             | Indicadores de error (cancelación, fallo) | `#F44336`  | <div style="width:80px;height:20px;background:#F44336;"></div>                       |
+| Color          | Uso principal                             | Hex        | Muestra         |
+|----------------|--------------------------------------------|------------|-----------------|
+| **Gris claro** | Fondo general de la app                   | `#F5F5F5`  | ![#F5F5F5](https://via.placeholder.com/20/F5F5F5/000000?text=+) |
+| **Negro**      | Botones, títulos, texto importante        | `#000000`  | ![#000000](https://via.placeholder.com/20/000000/FFFFFF?text=+) |
+| **Blanco**     | Texto sobre botones oscuros               | `#FFFFFF`  | ![#FFFFFF](https://via.placeholder.com/20/FFFFFF/000000?text=+) |
+| **Verde**      | Estados positivos (turno confirmado)      | `#4CAF50`  | ![#4CAF50](https://via.placeholder.com/20/4CAF50/FFFFFF?text=+) |
+| **Rojo**       | Estados negativos (cancelación, error)    | `#F44336`  | ![#F44336](https://via.placeholder.com/20/F44336/FFFFFF?text=+) |
 
 ---
+
