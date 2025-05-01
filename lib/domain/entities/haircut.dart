@@ -1,12 +1,12 @@
-import 'haircut-type.dart';
+import 'haircut_type.dart';
 
-class Corte {
+class Haircut {
   final String client;
   final String cellphone;
   final DateTime date;
   final HaircutType type;
 
-  Corte({
+  Haircut({
     required this.client,
     required this.cellphone,
     required this.date,
