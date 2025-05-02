@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../domain/enums/time_filter.dart';
-import '../providers/StatisticsProvider.dart';
+import '../providers/statistics_provider.dart';
 
 class FilterSelector extends StatelessWidget {
   const FilterSelector({super.key});

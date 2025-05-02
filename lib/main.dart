@@ -9,8 +9,8 @@ import 'domain/usecases/count_haircuts.dart';
 import 'domain/usecases/calculate_profits.dart';
 import 'domain/usecases/get_best_day.dart';
 
-import 'presentation/providers/StatisticsProvider.dart';
-import 'presentation/pages/StatisticsScreen.dart';
+import 'presentation/providers/statistics_provider.dart';
+import 'presentation/pages/statistics_screen.dart';
 
 void main() {
   runApp(const MyApp());
