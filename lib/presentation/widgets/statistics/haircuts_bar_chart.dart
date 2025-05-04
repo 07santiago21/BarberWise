@@ -10,10 +10,10 @@ class HaircutsBarChart extends StatelessWidget {
   final TimeFilter filter;
 
   const HaircutsBarChart({
-    Key? key,
+    super.key,
     required this.data,
     required this.filter,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
