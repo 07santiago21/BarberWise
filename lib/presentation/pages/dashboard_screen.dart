@@ -34,7 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {

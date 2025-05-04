@@ -13,7 +13,7 @@ class NextAppointmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      color: const Color(0xF5F5F5F5),
+      color: Colors.white,
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
