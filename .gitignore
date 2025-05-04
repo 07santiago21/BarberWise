@@ -43,3 +43,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignorar directorios de compilación nativos
+/android/app/.cxx/
+/android/.gradle/
+/build/
+/.idea/
+/.gradle/
+/local.properties

@@ -1,4 +1,4 @@
-import 'package:barber/domain/entities/haircut_type.dart';
+import 'package:barber/domain/entities/haircut_type.dart.dart';
 
 class AppointmentEntity {
   final String clientName;

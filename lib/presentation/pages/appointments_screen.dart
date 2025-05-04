@@ -6,6 +6,7 @@ import '../providers/appointments_provider.dart';
 import 'package:intl/intl.dart';
 
 
+
 class AppointmentsScreen extends StatelessWidget {
   const AppointmentsScreen({super.key});
 
