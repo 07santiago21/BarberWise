@@ -7,7 +7,7 @@ import '../widgets/statistics/haircuts_bar_chart.dart';
 import '../widgets/statistics/stat_card.dart';
 
 class StatisticsScreen extends StatelessWidget {
-  const StatisticsScreen({Key? key}) : super(key: key);
+  const StatisticsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

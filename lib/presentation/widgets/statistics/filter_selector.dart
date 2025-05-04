@@ -6,10 +6,10 @@ class FilterSelector extends StatelessWidget {
   final Future<void> Function(TimeFilter) onChanged;
 
   const FilterSelector({
-    Key? key,
+    super.key,
     required this.current,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
