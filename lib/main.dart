@@ -1,4 +1,6 @@
+
 import 'package:barber/presentation/pages/appointments_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Estadísticas Barbería',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const AppointmentsScreen(),
+
     );
   }
 }
