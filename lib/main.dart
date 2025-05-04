@@ -1,3 +1,4 @@
+import 'package:barber/presentation/pages/create_reservation_screen.dart';
 import 'package:barber/presentation/pages/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'presentation/pages/statistics_screen.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Estadísticas Barbería',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const DashboardScreen(),           //StatisticsScreen(),
+      home: CreateReservationScreen()    //const DashboardScreen(),           //StatisticsScreen(),
     );
   }
 }
