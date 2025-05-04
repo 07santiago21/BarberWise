@@ -29,7 +29,7 @@ class StatisticsScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Expanded(
                     child: HaircutsBarChart(
-                      data: prov.haircuts,
+                      data: prov.services,
                       filter: prov.filter,
                     ),
                   ),
@@ -42,7 +42,7 @@ class StatisticsScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   StatCard(
                     icon: Icons.content_cut,
-                    label: 'Cortes realizados',
+                    label: 'Servicios realizados',
                     value: prov.totalCount.toString(),
                   ),
                   const SizedBox(height: 12),

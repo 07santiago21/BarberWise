@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../domain/entities/haircut.dart';
+import '../../../domain/entities/services.dart';
 import '../../../domain/enums/time_filter.dart';
 
 /// Placeholder de gráfica de barras.
 /// Más adelante puedes sustituirlo por una implementación real
 /// (p. ej. fl_chart o charts_flutter).
 class HaircutsBarChart extends StatelessWidget {
-  final List<Haircut> data;
+  final List<Service> data;
   final TimeFilter filter;
 
   const HaircutsBarChart({

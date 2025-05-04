@@ -1,8 +1,8 @@
-import '../entities/haircut.dart';
+import '../entities/services.dart';
 
 /// Determina el día (nombre) con más cortes
 class GetBestDay {
-  String call(List<Haircut> haircuts) {
+  String call(List<Service> haircuts) {
     if (haircuts.isEmpty) return '';
 
     // Agrupamos por día (solo fecha)
