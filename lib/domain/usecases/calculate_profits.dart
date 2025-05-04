@@ -1,7 +1,7 @@
 import '../entities/haircut.dart';
 
+/// Suma los precios de todos los cortes
 class CalculateProfits {
-  double call(List<Haircut> cortes) {
-    return cortes.fold(0.0, (total, corte) => total + corte.type.price);
-  }
+  double call(List<Haircut> haircuts) =>
+      haircuts.fold(0.0, (sum, h) => sum + h.price);
 }

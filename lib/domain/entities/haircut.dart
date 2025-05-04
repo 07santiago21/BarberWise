@@ -1,15 +1,14 @@
 import 'haircut_type.dart';
 
+/// Entidad que representa un solo corte/barba
 class Haircut {
-  final String client;
-  final String cellphone;
   final DateTime date;
+  final double price;
   final HaircutType type;
 
   Haircut({
-    required this.client,
-    required this.cellphone,
     required this.date,
+    required this.price,
     required this.type,
   });
 }

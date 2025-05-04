@@ -1,24 +1,30 @@
 import '../entities/haircut.dart';
-import 'package:intl/intl.dart';
 
+/// Determina el día (nombre) con más cortes
 class GetBestDay {
-  String call(List<Haircut> cortes) {
-    final Map<String, double> gananciasPorDia = {};
+  String call(List<Haircut> haircuts) {
+    if (haircuts.isEmpty) return '';
 
-    for (var corte in cortes) {
-      final dia = DateFormat('yyyy-MM-dd').format(corte.date);
-      gananciasPorDia[dia] = (gananciasPorDia[dia] ?? 0) + corte.type.price;
+    // Agrupamos por día (solo fecha)
+    final Map<DateTime, int> counts = {};
+    for (var h in haircuts) {
+      final day = DateTime(h.date.year, h.date.month, h.date.day);
+      counts[day] = (counts[day] ?? 0) + 1;
     }
 
-    final mejorDia =
-        gananciasPorDia.entries.reduce((a, b) => a.value > b.value ? a : b);
-
-    final cortesEseDia = cortes
-        .where((c) => DateFormat('yyyy-MM-dd').format(c.date) == mejorDia.key)
-        .length;
-
-    final fecha = DateFormat('EEEE d').format(DateTime.parse(mejorDia.key));
-
-    return '$fecha - $cortesEseDia cortes / \$${mejorDia.value.toInt()}';
+    // Buscamos el día con más cortes
+    final bestEntry =
+        counts.entries.reduce((a, b) => a.value > b.value ? a : b);
+    final weekday = bestEntry.key.weekday;
+    const nombres = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ];
+    return nombres[weekday - 1];
   }
 }

@@ -1,65 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/statistics/haircuts_bar_chart.dart';
+
 import '../providers/statistics_provider.dart';
-import '../widgets/filter_selector.dart'; // Asegúrate de importar correctamente
-import '../widgets/stat_card.dart'; // Si decides separar también StatCard
+import '../widgets/statistics/filter_selector.dart';
+import '../widgets/statistics/haircuts_bar_chart.dart';
+import '../widgets/statistics/stat_card.dart';
 
 class StatisticsScreen extends StatelessWidget {
-  const StatisticsScreen({super.key});
+  const StatisticsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<StatisticsProvider>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Statistics'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const FilterSelector(), // 🔁 Reemplaza los ChoiceChips por este widget
-            const SizedBox(height: 20),
-            // Gráfica
-            HaircutsBarChart(
-              countsPerDay: provider.haircutsPerDay.values.toList(),
-              labels: provider.haircutsPerDay.keys.toList(),
-            ),
-            const SizedBox(height: 20),
-            // Tarjetas de estadísticas
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+    return ChangeNotifierProvider(
+      create: (_) => StatisticsProvider(),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Estadísticas')),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Consumer<StatisticsProvider>(
+            builder: (context, prov, _) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  StatCard(
-                    title: 'Total Haircuts',
-                    value: provider.totalHaircuts.toString(),
-                    icon: Icons.cut,
-                    color: Colors.blue,
+                  FilterSelector(
+                    current: prov.filter,
+                    onChanged: prov.setFilter,
                   ),
+                  const SizedBox(height: 24),
+                  Expanded(
+                    child: HaircutsBarChart(
+                      data: prov.haircuts,
+                      filter: prov.filter,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   StatCard(
-                    title: 'Total Earned',
-                    value: '\$${provider.totalProfit.toStringAsFixed(0)}',
                     icon: Icons.attach_money,
-                    color: Colors.green,
+                    label: 'Total generado',
+                    value: '\$${prov.totalProfit.toStringAsFixed(0)}',
                   ),
+                  const SizedBox(height: 12),
                   StatCard(
-                    title: 'Best Day',
-                    value: provider.bestDay,
-                    icon: Icons.calendar_today,
-                    color: Colors.orange,
+                    icon: Icons.content_cut,
+                    label: 'Cortes realizados',
+                    value: prov.totalCount.toString(),
+                  ),
+                  const SizedBox(height: 12),
+                  StatCard(
+                    icon: Icons.star,
+                    label: 'Mejor día',
+                    value: prov.bestDayName,
                   ),
                 ],
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
+        // El navbar lo implementará tu compañero; aquí no lo incluimos
       ),
     );
   }

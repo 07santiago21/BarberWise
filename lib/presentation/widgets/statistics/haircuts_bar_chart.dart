@@ -1,64 +1,30 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../../../domain/entities/haircut.dart';
+import '../../../domain/enums/time_filter.dart';
 
+/// Placeholder de gráfica de barras.
+/// Más adelante puedes sustituirlo por una implementación real
+/// (p. ej. fl_chart o charts_flutter).
 class HaircutsBarChart extends StatelessWidget {
-  final List<int> countsPerDay;
-  final List<String> labels;
+  final List<Haircut> data;
+  final TimeFilter filter;
 
   const HaircutsBarChart({
-    super.key,
-    required this.countsPerDay,
-    required this.labels,
-  });
+    Key? key,
+    required this.data,
+    required this.filter,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: BarChart(
-        BarChartData(
-          alignment: BarChartAlignment.spaceAround,
-          barTouchData: BarTouchData(enabled: false),
-          titlesData: FlTitlesData(
-            leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 30,
-              ),
-            ),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: (value, _) {
-                  final index = value.toInt();
-                  return Text(
-                    index >= 0 && index < labels.length ? labels[index] : '',
-                    style: const TextStyle(fontSize: 10),
-                  );
-                },
-              ),
-            ),
-            rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          borderData: FlBorderData(show: false),
-          barGroups: List.generate(countsPerDay.length, (index) {
-            return BarChartGroupData(
-              x: index,
-              barRods: [
-                BarChartRodData(
-                  toY: countsPerDay[index].toDouble(),
-                  color: Colors.blueAccent,
-                  width: 16,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ],
-            );
-          }),
-        ),
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(8),
       ),
+      alignment: Alignment.center,
+      child: const Text('Aquí irá la gráfica de barras'),
     );
   }
 }

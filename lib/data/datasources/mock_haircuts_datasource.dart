@@ -1,26 +1,36 @@
+import 'dart:math';
+
 import '../../domain/entities/haircut.dart';
 import '../../domain/entities/haircut_type.dart';
 
-final List<Haircut> haircutsMock = [
-  Haircut(
-    client: 'Carlos López',
-    cellphone: '3001112233',
-    date: DateTime(2025, 4, 1, 14, 0),
-    type: HaircutType(
-        name: 'Fade', price: 15000, duration: Duration(minutes: 30)),
-  ),
-  Haircut(
-    client: 'Juan Pérez',
-    cellphone: '3004445566',
-    date: DateTime(2025, 4, 2, 15, 30),
-    type: HaircutType(
-        name: 'Clásico', price: 12000, duration: Duration(minutes: 25)),
-  ),
-  Haircut(
-    client: 'Ana Torres',
-    cellphone: '3107891234',
-    date: DateTime(2025, 4, 3, 10, 45),
-    type: HaircutType(
-        name: 'Moderno', price: 18000, duration: Duration(minutes: 40)),
-  ),
-];
+/// Mock que genera una lista de cortes de pelo entre dos fechas.
+class MockHaircutsDatasource {
+  Future<List<Haircut>> getHaircutsByRange(DateTime from, DateTime to) async {
+    // Simulamos retraso de red
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final random = Random();
+    final days = to.difference(from).inDays;
+    final List<Haircut> results = [];
+
+    for (int i = 0; i <= days; i++) {
+      final date = from.add(Duration(days: i));
+      // De 1 a 5 cortes por día
+      final count = random.nextInt(5) + 1;
+      for (int j = 0; j < count; j++) {
+        // Precio entre 20000 y 50000
+        final price = 20000 + random.nextInt(30000);
+        // Tipo aleatorio
+        final type =
+            HaircutType.values[random.nextInt(HaircutType.values.length)];
+        results.add(Haircut(
+          date: date.add(Duration(hours: j)),
+          price: price.toDouble(),
+          type: type,
+        ));
+      }
+    }
+
+    return results;
+  }
+}

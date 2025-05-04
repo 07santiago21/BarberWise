@@ -1,11 +1,19 @@
-class HaircutType {
-  final String name;
-  final double price;
-  final Duration duration;
+/// Tipos de servicios
+enum HaircutType {
+  haircutOnly,
+  beardOnly,
+  combo,
+}
 
-  HaircutType({
-    required this.name,
-    required this.price,
-    required this.duration,
-  });
+extension HaircutTypeExtension on HaircutType {
+  String get displayName {
+    switch (this) {
+      case HaircutType.haircutOnly:
+        return 'Solo Corte';
+      case HaircutType.beardOnly:
+        return 'Solo Barba';
+      case HaircutType.combo:
+        return 'Combo';
+    }
+  }
 }
