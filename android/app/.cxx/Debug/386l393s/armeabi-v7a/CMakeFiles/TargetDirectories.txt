@@ -1,2 +1,0 @@
-C:/Users/juana/OneDrive/Documentos/visualProjects/Universidad/BarberWise/android/app/.cxx/Debug/386l393s/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/juana/OneDrive/Documentos/visualProjects/Universidad/BarberWise/android/app/.cxx/Debug/386l393s/armeabi-v7a/CMakeFiles/rebuild_cache.dir
