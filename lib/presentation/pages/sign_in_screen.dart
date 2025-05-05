@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     context,
                     MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
                   );},
-                child: const Text(
+                child: const Text(  
                   'Crear cuenta',
                   style: TextStyle(
                     color: AppColors.secondaryText,
