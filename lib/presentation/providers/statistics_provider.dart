@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/enums/time_filter.dart';
-import '../../domain/entities/services.dart';
-import '../../domain/usecases/get_services_by_range.dart';
-import '../../domain/usecases/count_services.dart';
+import '../../domain/entities/appointments.dart';
+import '../../domain/usecases/get_appointments_by_range.dart';
+import '../../domain/usecases/count_appointments.dart';
 import '../../domain/usecases/calculate_profits.dart';
 import '../../domain/usecases/get_best_day.dart';
-import '../../data/datasources/mock_services_datasource.dart';
+import '../../data/datasources/mock_appointments_datasource.dart';
 
 class StatisticsProvider extends ChangeNotifier {
-  final _datasource = MockServicesDatasource();
+  final _datasource = MockAppointmentsDatasource();
 
-  // UseCases
-  late final _getByRange = GetServiceByRange(
-    _datasource.getServicesByRange,
+  late final GetAppointmentsByRange _getByRange = GetAppointmentsByRange(
+    (DateTime from, DateTime to) async {
+      final List<Appointments> all = [];
+      final days = to.difference(from).inDays;
+      for (int i = 0; i <= days; i++) {
+        final date =
+            DateTime(from.year, from.month, from.day).add(Duration(days: i));
+        final page = await _datasource.getAppointmentsFor(date);
+        all.addAll(page);
+      }
+      return all;
+    },
   );
-  final _count = CountServices();
-  final _profits = CalculateProfits();
-  final _bestDay = GetBestDay();
 
-  // Estado
-  TimeFilter _filter = TimeFilter.last5Days;
-  List<Service> _services = [];
+  final CountAppointments _count = CountAppointments();
+  final CalculateProfits _profits = CalculateProfits();
+  final GetBestDay _bestDayUseCase = GetBestDay();
+
+  TimeFilter _filter = TimeFilter.last7Days;
+  List<Appointments> _appointments = [];
   double _totalProfit = 0;
   int _totalCount = 0;
   String _bestDayName = '';
 
-  // Getters
   TimeFilter get filter => _filter;
-  List<Service> get services => _services;
+  List<Appointments> get appointments => _appointments;
   double get totalProfit => _totalProfit;
   int get totalCount => _totalCount;
   String get bestDayName => _bestDayName;
@@ -37,7 +45,6 @@ class StatisticsProvider extends ChangeNotifier {
     loadStatistics();
   }
 
-  /// Cambia el filtro y recarga datos
   Future<void> setFilter(TimeFilter newFilter) async {
     _filter = newFilter;
     notifyListeners();
@@ -47,10 +54,13 @@ class StatisticsProvider extends ChangeNotifier {
   Future<void> loadStatistics() async {
     final from = _filter.startDate;
     final to = DateTime.now();
-    _services = await _getByRange(from, to);
-    _totalCount = _count(_services);
-    _totalProfit = _profits(_services);
-    _bestDayName = _bestDay(_services);
+
+    _appointments = await _getByRange(from, to);
+
+    _totalCount = _count(_appointments);
+    _totalProfit = _profits(_appointments);
+    _bestDayName = _bestDayUseCase(_appointments, _filter);
+
     notifyListeners();
   }
 }

@@ -1,30 +1,45 @@
-import '../entities/services.dart';
+import 'package:intl/intl.dart';
+import '../entities/appointments.dart';
+import '../enums/time_filter.dart';
 
-/// Determina el día (nombre) con más cortes
 class GetBestDay {
-  String call(List<Service> haircuts) {
-    if (haircuts.isEmpty) return '';
+  String call(List<Appointments> appointments, TimeFilter filter) {
+    if (appointments.isEmpty) return '';
 
-    // Agrupamos por día (solo fecha)
-    final Map<DateTime, int> counts = {};
-    for (var h in haircuts) {
-      final day = DateTime(h.date.year, h.date.month, h.date.day);
-      counts[day] = (counts[day] ?? 0) + 1;
+    final from = filter.startDate;
+    final to = DateTime.now();
+    final totalDays = to.difference(from).inDays + 1;
+    final groupByWeek = filter == TimeFilter.last30Days;
+    final bucketCount = groupByWeek ? 4 : totalDays;
+
+    final counts = <int, int>{};
+    for (var a in appointments) {
+      final svcCount = a.services.length;
+      if (svcCount == 0) continue;
+      final diff = a.startTime.difference(from).inDays;
+      final bucket = groupByWeek ? (diff * bucketCount ~/ totalDays) : diff;
+      counts[bucket] = (counts[bucket] ?? 0) + svcCount;
+    }
+    if (counts.isEmpty) return '';
+
+    final bestBucket = counts.entries
+        .reduce((a, b) => a.value > b.value ? a : (a.value < b.value ? b : a))
+        .key;
+
+    DateTime bestDate;
+    if (groupByWeek) {
+      final span = totalDays / bucketCount;
+      final startOff = (bestBucket * span).floor();
+      final endOff = ((bestBucket + 1) * span).ceil() - 1;
+      bestDate = from.add(Duration(days: (startOff + endOff) ~/ 2));
+    } else {
+      bestDate = from.add(Duration(days: bestBucket));
     }
 
-    // Buscamos el día con más cortes
-    final bestEntry =
-        counts.entries.reduce((a, b) => a.value > b.value ? a : b);
-    final weekday = bestEntry.key.weekday;
-    const nombres = [
-      'Lunes',
-      'Martes',
-      'Miércoles',
-      'Jueves',
-      'Viernes',
-      'Sábado',
-      'Domingo'
-    ];
-    return nombres[weekday - 1];
+    final locale = 'es';
+    final weekday = DateFormat('EEEE', locale).format(bestDate).toLowerCase();
+    final day = bestDate.day;
+    final month = DateFormat('MMMM', locale).format(bestDate).toLowerCase();
+    return '$weekday $day de $month';
   }
 }

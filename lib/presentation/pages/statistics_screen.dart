@@ -29,7 +29,7 @@ class StatisticsScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Expanded(
                     child: HaircutsBarChart(
-                      data: prov.services,
+                      data: prov.appointments,
                       filter: prov.filter,
                     ),
                   ),
@@ -56,7 +56,6 @@ class StatisticsScreen extends StatelessWidget {
             },
           ),
         ),
-        // El navbar lo implementará tu compañero; aquí no lo incluimos
       ),
     );
   }

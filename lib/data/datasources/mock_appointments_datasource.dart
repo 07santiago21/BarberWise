@@ -8,40 +8,125 @@ class MockAppointmentsDatasource {
 
   MockAppointmentsDatasource() {
     allAppointments.addAll([
-      // 📅 6 de mayo
       Appointments(
-        clientName: 'Juan Pérez',
+        clientName: 'Fabio G.',
+        startTime: DateTime(2025, 4, 20, 8, 0),
+        endTime: DateTime(2025, 4, 20, 8, 30),
+        services: [services[0]],
+      ),
+      Appointments(
+        clientName: 'Margarita D.',
+        startTime: DateTime(2025, 4, 20, 9, 0),
+        endTime: DateTime(2025, 4, 20, 9, 20),
+        services: [services[1]],
+      ),
+      Appointments(
+        clientName: 'Jorge T.',
+        startTime: DateTime(2025, 4, 20, 10, 0),
+        endTime: DateTime(2025, 4, 20, 11, 0),
+        services: [services[2]],
+      ),
+      Appointments(
+        clientName: 'Juan David R.',
+        startTime: DateTime(2025, 4, 20, 11, 30),
+        endTime: DateTime(2025, 4, 20, 12, 0),
+        services: [services[3]],
+      ),
+      Appointments(
+        clientName: 'Sebastian P.',
+        startTime: DateTime(2025, 4, 20, 12, 30),
+        endTime: DateTime(2025, 4, 20, 13, 0),
+        services: [services[0], services[3]],
+      ),
+      Appointments(
+        clientName: 'Sofía R.',
+        startTime: DateTime(2025, 4, 29, 9, 0),
+        endTime: DateTime(2025, 4, 29, 9, 30),
+        services: [services[0]],
+      ),
+      Appointments(
+        clientName: 'Pedro Á.',
+        startTime: DateTime(2025, 4, 29, 10, 0),
+        endTime: DateTime(2025, 4, 29, 10, 20),
+        services: [services[1]],
+      ),
+      Appointments(
+        clientName: 'María G.',
+        startTime: DateTime(2025, 4, 29, 11, 0),
+        endTime: DateTime(2025, 4, 29, 11, 25),
+        services: [services[2]],
+      ),
+      Appointments(
+        clientName: 'Luis M.',
+        startTime: DateTime(2025, 4, 29, 12, 0),
+        endTime: DateTime(2025, 4, 29, 12, 30),
+        services: [services[3]],
+      ),
+      Appointments(
+        clientName: 'Andrés H.',
+        startTime: DateTime(2025, 5, 1, 10, 0),
+        endTime: DateTime(2025, 5, 1, 10, 20),
+        services: [services[1]],
+      ),
+      Appointments(
+        clientName: 'Carla R.',
+        startTime: DateTime(2025, 5, 2, 11, 0),
+        endTime: DateTime(2025, 5, 2, 11, 50),
+        services: [services[0], services[1]],
+      ),
+      Appointments(
+        clientName: 'Diego V.',
+        startTime: DateTime(2025, 5, 3, 14, 0),
+        endTime: DateTime(2025, 5, 3, 14, 25),
+        services: [services[3]],
+      ),
+      Appointments(
+        clientName: 'Elena C.',
+        startTime: DateTime(2025, 5, 4, 16, 30),
+        endTime: DateTime(2025, 5, 4, 17, 30),
+        services: [services[2]],
+      ),
+      Appointments(
+        clientName: 'Miguel D.',
+        startTime: DateTime(2025, 5, 5, 9, 0),
+        endTime: DateTime(2025, 5, 5, 9, 30),
+        services: [services[0]],
+      ),
+      Appointments(
+        clientName: 'Ana P.',
+        startTime: DateTime(2025, 5, 5, 10, 0),
+        endTime: DateTime(2025, 5, 5, 10, 45),
+        services: [services[2]],
+      ),
+      Appointments(
+        clientName: 'Juan P.',
         startTime: DateTime(2025, 5, 6, 9, 0),
         endTime: DateTime(2025, 5, 6, 9, 30),
-        services: [services[0]], // Corte de pelo
+        services: [services[0]],
       ),
       Appointments(
-        clientName: 'María López',
+        clientName: 'María L.',
         startTime: DateTime(2025, 5, 6, 10, 0),
         endTime: DateTime(2025, 5, 6, 10, 45),
-        services: [services[1], services[3]], // Cejas + barba
+        services: [services[1], services[3]],
       ),
-
-      // 📅 8 de mayo
       Appointments(
-        clientName: 'Carlos Gómez',
+        clientName: 'Carlos G.',
         startTime: DateTime(2025, 5, 8, 14, 0),
         endTime: DateTime(2025, 5, 8, 15, 0),
-        services: [services[2]], // Coloración
+        services: [services[2]],
       ),
-
-      // 📅 10 de mayo
       Appointments(
-        clientName: 'Ana Torres',
+        clientName: 'Ana T.',
         startTime: DateTime(2025, 5, 10, 16, 0),
         endTime: DateTime(2025, 5, 10, 17, 0),
-        services: [services[0], services[2]], // Corte de pelo + coloración
+        services: [services[0], services[2]],
       ),
       Appointments(
-        clientName: 'Luis Martínez',
+        clientName: 'Luis M.',
         startTime: DateTime(2025, 5, 10, 17, 30),
         endTime: DateTime(2025, 5, 10, 18, 0),
-        services: [services[3]], // Corte de barba
+        services: [services[3]],
       ),
     ]);
   }

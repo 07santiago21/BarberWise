@@ -1,4 +1,3 @@
-/// Tipos de servicios
 enum HaircutType {
   haircutOnly,
   beardOnly,
