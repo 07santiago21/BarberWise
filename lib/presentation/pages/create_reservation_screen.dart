@@ -61,6 +61,12 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -70,7 +76,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
               children: [
                 const Icon(Icons.cut, size: 250, color: Colors.black87),
                 const SizedBox(height: 34),
-
                 Form(
                   key: _formKey,
                   child: Column(
@@ -84,7 +89,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-
                       DropdownButtonFormField<HaircutType>(
                         value: selectedHaircutType,
                         items: HaircutType.values
@@ -103,7 +107,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-
                       GestureDetector(
                         onTap: _selectDateTime,
                         child: AbsorbPointer(
@@ -119,7 +122,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-
                       TextFormField(
                         controller: phoneController,
                         keyboardType: TextInputType.number,
@@ -133,9 +135,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 82),
-
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(

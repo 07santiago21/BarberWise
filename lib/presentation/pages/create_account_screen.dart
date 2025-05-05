@@ -36,7 +36,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          // Avatar con ripple y posibilidad de cambiar imagen
           Center(
             child: Material(
               shape: const CircleBorder(),
@@ -59,7 +58,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
           const SizedBox(height: 40),
 
-          // Campo Nombre
           TextFormField(
             style: const TextStyle(color: AppColors.primaryText),
             decoration: const InputDecoration(
@@ -73,7 +71,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
           const SizedBox(height: 20),
 
-          // Campo Número
           TextFormField(
             style: const TextStyle(color: AppColors.primaryText),
             decoration: const InputDecoration(
@@ -87,7 +84,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
           const SizedBox(height: 20),
 
-          // Campo Email
           TextFormField(
             style: const TextStyle(color: AppColors.primaryText),
             decoration: const InputDecoration(
@@ -101,7 +97,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
           const SizedBox(height: 30),
 
-          // Botón Guardar
           SizedBox(
             width: double.infinity,
             height: 50,

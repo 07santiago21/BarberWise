@@ -46,10 +46,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 )
               ),
               const SizedBox(height: 20),
-              // App Name
+              
              const Text("Inicio de sesión", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
               const SizedBox(height: 40),
-              // Username/Email Field
                TextFormField(
               decoration: InputDecoration(
                 labelText: 'Usuario/Email',
@@ -62,7 +61,6 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            // Password Field
               TextFormField(
               decoration: InputDecoration(
                 labelText: 'Contraseña',
@@ -75,7 +73,6 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            // Sign In Button
                 SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -106,7 +103,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
                const SizedBox(height: 10),
-              // Forgot Password? Link
+
                TextButton(
                 onPressed: () {
                   Navigator.push(

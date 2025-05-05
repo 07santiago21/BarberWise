@@ -43,7 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  // Header (30%)
                   SizedBox(
                     height: height * 0.30,
                     child: const GreetingHeader(),
@@ -51,7 +50,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   const SizedBox(height: 8),
 
-                  // Próximo turno (25%)
                   SizedBox(
                     height: height * 0.25,
                     child: SizedBox.expand(
@@ -61,14 +59,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   const SizedBox(height: 8),
 
-                  // Resumen del día (45%)
                   Expanded(
                     child: SizedBox.expand(
                       child: DailySummaryCard(summary: provider.dailySummary!),
                     ),
                   ),
 
-                  const SizedBox(height: 12), // Espacio inferior
+                  const SizedBox(height: 12),
                 ],
               ),
             );

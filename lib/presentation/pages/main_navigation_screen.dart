@@ -18,9 +18,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final bool _isUserSignedIn = false;
   late final List<Widget> _pages = [
-    const DashboardScreen(), // índice 0 → HOME
+    const DashboardScreen(), 
     const AppointmentsScreen(),
-    const StatisticsScreen(), // índice 2 → ESTADISTICAS
+    const StatisticsScreen(), 
     _isUserSignedIn ? const EditProfileScreen() : const ProfileOptionsScreen(),
   ];
 

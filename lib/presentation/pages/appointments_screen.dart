@@ -1,4 +1,3 @@
-// lib/presentation/pages/appointments_screen.dart
 
 import 'package:barber/presentation/pages/create_reservation_screen.dart';
 import 'package:barber/presentation/widgets/appointments/appointments_card.dart';
@@ -23,7 +22,7 @@ class AppointmentsScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
                 children: [
-                  // Fecha actual
+
                   Text(
                     DateFormat("d 'de' MMMM yyyy", 'es_ES')
                         .format(provider.selectedDate),
@@ -34,14 +33,12 @@ class AppointmentsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
 
-                  // Selector de fecha
                   DateSelector(
                     selectedDate: provider.selectedDate,
                     onDateSelected: provider.selectDate,
                   ),
                   const SizedBox(height: 8),
 
-                  // Listado o loading
                   Expanded(
                     child: provider.isLoading
                         ? const Center(child: CircularProgressIndicator())
@@ -59,7 +56,6 @@ class AppointmentsScreen extends StatelessWidget {
                               ),
                   ),
 
-                  // Botón siempre visible debajo de las citas
                   const SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(

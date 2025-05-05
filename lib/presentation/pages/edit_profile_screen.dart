@@ -44,7 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
 
           const SizedBox(height: 40),
-          // Campo Nombre
+
           TextFormField(
             style: const TextStyle(color: AppColors.primaryText),
             initialValue: 'Test Test',
@@ -62,7 +62,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
           const SizedBox(height: 20),
 
-          // Campo Número
              TextFormField(
             style: const TextStyle(color: AppColors.primaryText),
             initialValue: 'signed phone number',
@@ -79,7 +78,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
           const SizedBox(height: 20),
 
-          // Campo Email
           TextFormField(
             initialValue: 'signed@gmail.com',
             style: const TextStyle(color: AppColors.primaryText),
@@ -96,7 +94,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
           const SizedBox(height: 30),
 
-          // Botón Guardar
           SizedBox(
             width: double.infinity,
             height: 50,
