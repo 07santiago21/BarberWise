@@ -1,6 +1,9 @@
+import 'package:barber/presentation/pages/profile_options_screen.dart';
+import 'package:barber/presentation/pages/edit_profile_screen.dart';
 import 'package:barber/presentation/pages/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:barber/presentation/pages/dashboard_screen.dart';
+import 'package:barber/presentation/pages/create_account_screen.dart';
 import 'package:barber/presentation/pages/appointments_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -13,18 +16,36 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
-    DashboardScreen(),    // índice 0 → HOME
-    AppointmentsScreen(),
-    StatisticsScreen() // índice 1 → CITAS
+  final bool _isUserSignedIn = false;
+  late final List<Widget> _pages = [
+    const DashboardScreen(), // índice 0 → HOME
+    const AppointmentsScreen(),
+    const StatisticsScreen(), // índice 2 → ESTADISTICAS
+    _isUserSignedIn
+        ? const EditProfileScreen()
+        : const ProfileOptionsScreen(),
+
+
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _isUserSignedIn
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateAccountScreen()),
+                );
+              },
+              child: const Icon(Icons.add),
+            ) : null,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+      currentIndex: _selectedIndex,
+
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
@@ -41,6 +62,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             icon: Icon(Icons.bar_chart),
             label: 'Estadísticas',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),  
         ],
       ),
     );
