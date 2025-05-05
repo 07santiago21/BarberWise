@@ -21,31 +21,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const DashboardScreen(), // índice 0 → HOME
     const AppointmentsScreen(),
     const StatisticsScreen(), // índice 2 → ESTADISTICAS
-    _isUserSignedIn
-        ? const EditProfileScreen()
-        : const ProfileOptionsScreen(),
-
-
+    _isUserSignedIn ? const EditProfileScreen() : const ProfileOptionsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _isUserSignedIn
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateAccountScreen()),
-                );
-              },
-              child: const Icon(Icons.add),
-            ) : null,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-      currentIndex: _selectedIndex,
-
+        currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
@@ -65,7 +49,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Perfil',
-          ),  
+          ),
         ],
       ),
     );
