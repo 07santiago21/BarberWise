@@ -1,6 +1,6 @@
 import 'package:barber/domain/entities/appointment_entity.dart';
-import 'package:barber/domain/entities/haircut_type.dart.dart';
 import 'package:barber/domain/entities/summary_entity.dart';
+import 'package:barber/domain/entities/haircut_type.dart.dart';
 
 class DashboardRemoteDataSource {
   Future<AppointmentEntity> fetchNextAppointment() async {

@@ -1,7 +1,7 @@
-import 'package:barber/domain/entities/haircut_type.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barber/presentation/pages/dashboard_screen.dart';
+import 'package:barber/domain/entities/haircut_type.dart.dart';
 
 class CreateReservationScreen extends StatefulWidget {
   const CreateReservationScreen({super.key});
@@ -29,7 +29,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
-        // ignore: use_build_context_synchronously
         context: context,
         initialTime: const TimeOfDay(hour: 10, minute: 0),
       );
@@ -149,7 +148,6 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                           final celular = phoneController.text;
                           final hora = selectedDateTime?.toString() ?? 'No seleccionada';
 
-                          
                           print('📝 Reserva creada:');
                           print('Nombre: $nombre');
                           print('Tipo: $tipo');
