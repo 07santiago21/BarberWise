@@ -1,7 +1,6 @@
-import '../entities/services.dart';
+import '../entities/appointments.dart';
 
-/// Suma los precios de todos los cortes
 class CalculateProfits {
-  double call(List<Service> haircuts) =>
-      haircuts.fold(0.0, (sum, h) => sum + h.price);
+  double call(List<Appointments> apps) =>
+      apps.fold(0.0, (sum, a) => sum + a.totalPrice);
 }
