@@ -1,3 +1,4 @@
+import 'package:barber/presentation/pages/main_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barber/presentation/pages/dashboard_screen.dart';
@@ -64,7 +65,10 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
+                          );
           },
         ),
       ),
@@ -168,7 +172,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
 
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (_) => const DashboardScreen()),
+                            MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
                           );
                         }
                       },

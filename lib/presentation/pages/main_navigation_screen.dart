@@ -1,4 +1,3 @@
-import 'package:barber/presentation/pages/profile_options_screen.dart';
 import 'package:barber/presentation/pages/edit_profile_screen.dart';
 import 'package:barber/presentation/pages/statistics_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +15,11 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final bool _isUserSignedIn = false;
   late final List<Widget> _pages = [
     const DashboardScreen(), 
     const AppointmentsScreen(),
     const StatisticsScreen(), 
-    _isUserSignedIn ? const EditProfileScreen() : const ProfileOptionsScreen(),
+    const EditProfileScreen(),
   ];
 
   @override

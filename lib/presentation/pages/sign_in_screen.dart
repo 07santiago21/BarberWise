@@ -46,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 )
               ),
               const SizedBox(height: 20),
-              
+
              const Text("Inicio de sesión", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
               const SizedBox(height: 40),
                TextFormField(
@@ -111,7 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
                   );},
                 child: const Text(
-                  '¿Olvidaste tu contraseña?',
+                  'Crear cuenta',
                   style: TextStyle(
                     color: AppColors.secondaryText,
                   ),

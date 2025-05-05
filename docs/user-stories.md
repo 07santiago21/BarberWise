@@ -174,7 +174,7 @@
 **Criterios de aceptación:**
 - CA1. Todos los campos deben ser obligatorios.
 - CA2. El sistema debe validar que no haya otro turno en la misma hora.
-- CA3. Al guardar, la reserva debe aparecer en el calendario.
+- CA3. Al guardar, la reserva debe aparecer e   n el calendario.
 - CA4. Si ocurre un error, debe mostrarse un mensaje claro.
 
 ---

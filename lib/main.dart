@@ -1,3 +1,4 @@
+import 'package:barber/presentation/pages/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:barber/presentation/pages/main_navigation_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -17,13 +18,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Barber Wise',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF5F5F5), // Gris claro
-        primaryColor: Colors.black, // Negro principal
+        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+        primaryColor: Colors.black, 
         colorScheme: const ColorScheme.light(
-          primary: Colors.black, // Botones, textos importantes
-          onPrimary: Colors.white, // Texto sobre botones oscuros
-          secondary: Color(0xFF4CAF50), // Verde → Confirmado
-          error: Color(0xFFF44336), // Rojo → Error
+          primary: Colors.black,
+          onPrimary: Colors.white, 
+          secondary: Color(0xFF4CAF50),
+          error: Color(0xFFF44336),
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const SignInScreen(),
     );
   }
 }
