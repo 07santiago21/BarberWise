@@ -124,8 +124,8 @@ class MockAppointmentsDatasource {
       ),
       Appointments(
         clientName: 'Luis M.',
-        startTime: DateTime(2025, 5, 10, 17, 30),
-        endTime: DateTime(2025, 5, 10, 18, 0),
+        startTime: DateTime(2025, 6, 10, 17, 30),
+        endTime: DateTime(2025, 6, 10, 18, 0),
         services: [services[3]],
       ),
     ]);

@@ -2,7 +2,6 @@ import 'package:barber/presentation/pages/edit_profile_screen.dart';
 import 'package:barber/presentation/pages/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:barber/presentation/pages/dashboard_screen.dart';
-import 'package:barber/presentation/pages/create_account_screen.dart';
 import 'package:barber/presentation/pages/appointments_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {

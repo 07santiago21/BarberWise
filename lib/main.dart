@@ -1,12 +1,12 @@
 import 'package:barber/presentation/pages/sign_in_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:barber/presentation/pages/main_navigation_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('es_ES', null);
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
