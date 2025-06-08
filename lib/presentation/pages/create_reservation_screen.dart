@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:barber/domain/entities/services_entity_.dart';
 import 'package:barber/presentation/providers/appointment_providers.dart';
+import 'package:barber/presentation/pages/main_navigation_screen.dart';
 
 class CreateReservationScreen extends ConsumerStatefulWidget {
   const CreateReservationScreen({super.key});
@@ -90,6 +91,8 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.person),
                         ),
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty ? 'Nombre requerido' : null,
                       ),
                       const SizedBox(height: 16),
                       servicesAsync.when(
@@ -134,6 +137,8 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.phone),
                         ),
+                        validator: (value) =>
+                            value == null || value.length < 10 ? 'Número inválido' : null,
                       ),
                     ],
                   ),
@@ -151,7 +156,7 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
 
                         final appointment = Appointment(
                           clientName: nameController.text,
-                          barberId: 'barber123', // cambiar por ID real si aplica
+                          barberId: 'barber123',
                           startTime: start,
                           endTime: end,
                           serviceId: selectedService!.id,
@@ -159,11 +164,26 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
 
                         await notifier.submit(appointment);
 
+                        // Limpiar campos
+                        nameController.clear();
+                        phoneController.clear();
+                        dateTimeController.clear();
+                        setState(() {
+                          selectedService = null;
+                          selectedDateTime = null;
+                        });
+
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Reserva creada')),
                           );
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MainNavigationScreen(),
+                            ),
+                            (route) => false,
+                          );
                         }
                       }
                     },

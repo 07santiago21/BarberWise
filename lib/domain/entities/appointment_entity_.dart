@@ -3,7 +3,7 @@ class Appointment {
   final String barberId;
   final DateTime startTime;
   final DateTime endTime;
-  final int serviceId;
+  final String serviceId;
 
   Appointment({
     required this.clientName,
