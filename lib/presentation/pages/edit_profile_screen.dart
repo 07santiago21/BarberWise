@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../colors.dart';
+import '../providers/auth_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -9,115 +11,145 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _nameCtrl;
+  late final TextEditingController _phoneCtrl;
+  late final TextEditingController _emailCtrl;
+  final _newPassCtrl = TextEditingController();
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = context.read<AuthProvider>().user!;
+    _nameCtrl = TextEditingController(text: user.name);
+    _phoneCtrl = TextEditingController(text: user.phone);
+    _emailCtrl = TextEditingController(text: user.email);
+  }
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _phoneCtrl.dispose();
+    _emailCtrl.dispose();
+    _newPassCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _loading = true);
+    final auth = context.read<AuthProvider>();
+
+    final okProfile = await auth.updateProfile(
+      _nameCtrl.text.trim(),
+      _phoneCtrl.text.trim(),
+    );
+
+    bool okPwd = true;
+    if (_newPassCtrl.text.isNotEmpty) {
+      okPwd = await auth.changePassword(_newPassCtrl.text.trim());
+    }
+
+    setState(() => _loading = false);
+
+    if (okProfile && okPwd) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Perfil actualizado correctamente')),
+      );
+    } else {
+      final err = auth.errorMessage ?? 'Error al actualizar';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(err)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
       appBar: AppBar(
-        title: const Text('Editar Perfil',style: TextStyle(
-                  color: Colors.white,
-                )),
+        title:
+            const Text('Editar Perfil', style: TextStyle(color: Colors.white)),
         backgroundColor: AppColors.secondaryBackground,
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(20),
         children: [
-           const SizedBox(height: 40),
-          Center(
-            child: Material(
-              shape: const CircleBorder(),
-              color: Colors.transparent,
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: () {},
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundColor: AppColors.secondaryBackground,
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.white,
-                    )
-                ),
-              ),
-            ),
-          ),
-
           const SizedBox(height: 40),
-
-          TextFormField(
-            style: const TextStyle(color: AppColors.primaryText),
-            initialValue: 'Test Test',
-            decoration:  InputDecoration(
-              labelText: 'Nombre',
-              labelStyle: const TextStyle(color: AppColors.secondaryText),
-              border: const OutlineInputBorder(),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-
-              fillColor: AppColors.primaryBackground,
-              filled: true,
-              suffixIcon: Icon(Icons.arrow_forward_ios, color: AppColors.secondaryText,),
+          Center(
+            child: CircleAvatar(
+              radius: 60,
+              backgroundColor: AppColors.secondaryBackground,
+              child: const Icon(Icons.person, size: 60, color: Colors.white),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-             TextFormField(
-            style: const TextStyle(color: AppColors.primaryText),
-            initialValue: 'signed phone number',
-              decoration:  InputDecoration(
-              labelText: 'Número',
-              labelStyle: const TextStyle(color: AppColors.secondaryText),
-              border: const OutlineInputBorder(),
-              fillColor: AppColors.primaryBackground,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              filled: true,
-               suffixIcon: Icon(Icons.arrow_forward_ios, color: AppColors.secondaryText,),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          TextFormField(
-            initialValue: 'signed@gmail.com',
-            style: const TextStyle(color: AppColors.primaryText),
-              decoration: InputDecoration(
-              labelText: 'Email',
-              labelStyle: const TextStyle(color: AppColors.secondaryText),
-              border: const OutlineInputBorder(),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              fillColor: AppColors.primaryBackground,
-              filled: true,
-               suffixIcon: Icon(Icons.arrow_forward_ios, color: AppColors.secondaryText,),
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+          const SizedBox(height: 40),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _nameCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Nombre',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (v) =>
+                      v == null || v.isEmpty ? 'Ingrese nombre' : null,
                 ),
-              ),
-              child: const Text(
-                'Guardar',
-                style: TextStyle(
-                  color: AppColors.primaryBackground,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _phoneCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Número',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (v) =>
+                      v == null || v.isEmpty ? 'Ingrese teléfono' : null,
                 ),
-              ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailCtrl,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _newPassCtrl,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Nueva contraseña',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _loading ? null : _save,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accent,
+                    ),
+                    child: _loading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            'Guardar',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
-
-          const SizedBox(height: 20),
         ],
       ),
     );
