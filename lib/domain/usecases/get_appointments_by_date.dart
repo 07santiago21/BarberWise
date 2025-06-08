@@ -1,11 +1,12 @@
-import '../../data/datasources/mock_appointments_datasource.dart';
+import 'package:barber/domain/repositories/appointments_repository.dart';
 import '../entities/appointments.dart';
 
 class GetAppointmentsByDate {
-  final MockAppointmentsDatasource _datasource = MockAppointmentsDatasource();
+  final AppointmentsRepository repository;
+
+  GetAppointmentsByDate(this.repository);
 
   Future<List<Appointments>> call(DateTime date) async {
-    final appointments = await _datasource.getAppointmentsFor(date);
-    return appointments;
+    return repository.getAppointmentsByADate(date);
   }
 }
