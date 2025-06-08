@@ -1,8 +1,8 @@
-import 'package:barber/domain/entities/appointments.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentCard extends StatefulWidget {
-  final Appointments appointment;
+  final Appointment appointment;
 
   const AppointmentCard({super.key, required this.appointment});
 
@@ -21,12 +21,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
         '${appt.startTime.hour.toString().padLeft(2, '0')}:${appt.startTime.minute.toString().padLeft(2, '0')} - '
         '${appt.endTime.hour.toString().padLeft(2, '0')}:${appt.endTime.minute.toString().padLeft(2, '0')}';
 
-    final duration = appt.service.duration;
-    final price = appt.service.price.toStringAsFixed(0);
+     final duration = appt.service?.duration;
+     final price = appt.service?.price.toStringAsFixed(0);
 
-    String formatDuration(Duration d) {
-      final h = d.inHours;
-      final m = d.inMinutes.remainder(60);
+     String formatDuration(int? minutes) {
+      if (minutes == null) return 'Duración no disponible';
+      final h = minutes ~/ 60;
+      final m = minutes % 60;
       if (h > 0) return '${h}h ${m}min';
       return '$m min';
     }
@@ -76,7 +77,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text('Servicio: ${appt.service.name}'),
+                        Text('Servicio: ${appt.service?.name}'),
                         const SizedBox(height: 4),
                         Row(
                           children: [
@@ -91,7 +92,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     Column(
                       children: [
                         const Icon(Icons.attach_money, size: 20),
-                        Text(price),
+                        Text(price ?? '-'),
                       ],
                     ),
                   ],

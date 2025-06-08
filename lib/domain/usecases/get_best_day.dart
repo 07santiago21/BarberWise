@@ -1,9 +1,9 @@
-/*import 'package:intl/intl.dart';
-import '../entities/appointments.dart';
+/*import 'package:barber/domain/entities/appointment_entity_.dart';
+import 'package:intl/intl.dart';
 import '../enums/time_filter.dart';
 
 class GetBestDay {
-  String call(List<Appointments> appointments, TimeFilter filter) {
+  String call(List<Appointment> appointments, TimeFilter filter) {
     if (appointments.isEmpty) return '';
 
     final from = filter.startDate;
