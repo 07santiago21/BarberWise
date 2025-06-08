@@ -37,6 +37,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
     final auth = context.read<AuthProvider>();
     final success = await auth.register(
+      _nameCtrl.text.trim(),
+      _phoneCtrl.text.trim(),
       _emailCtrl.text.trim(),
       _passCtrl.text.trim(),
     );
@@ -44,13 +46,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     setState(() => _isLoading = false);
 
     if (success) {
-      // Navegamos al main navigation y removemos esta pantalla
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
       );
     } else {
-      // Mostrar mensaje de error desde el provider
       final error =
           context.read<AuthProvider>().errorMessage ?? 'Error desconocido';
       ScaffoldMessenger.of(context).showSnackBar(
@@ -79,7 +79,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             key: _formKey,
             child: Column(
               children: [
-                // Nombre
                 TextFormField(
                   controller: _nameCtrl,
                   decoration: const InputDecoration(
@@ -92,8 +91,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       (v == null || v.isEmpty) ? 'Ingrese su nombre' : null,
                 ),
                 const SizedBox(height: 16),
-
-                // Teléfono
                 TextFormField(
                   controller: _phoneCtrl,
                   keyboardType: TextInputType.phone,
@@ -107,8 +104,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       (v == null || v.isEmpty) ? 'Ingrese su teléfono' : null,
                 ),
                 const SizedBox(height: 16),
-
-                // Email
                 TextFormField(
                   controller: _emailCtrl,
                   keyboardType: TextInputType.emailAddress,
@@ -125,8 +120,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Contraseña
                 TextFormField(
                   controller: _passCtrl,
                   obscureText: true,
@@ -141,8 +134,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       : 'La contraseña debe tener al menos 6 caracteres',
                 ),
                 const SizedBox(height: 30),
-
-                // Botón Registrar
                 SizedBox(
                   width: double.infinity,
                   height: 50,

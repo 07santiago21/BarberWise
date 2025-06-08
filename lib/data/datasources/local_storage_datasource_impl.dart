@@ -5,6 +5,8 @@ import 'local_storage_datasource.dart';
 class SharedPrefsLocalDataSource implements LocalStorageDataSource {
   static const _keyUid = 'USER_UID';
   static const _keyEmail = 'USER_EMAIL';
+  static const _keyName = 'USER_NAME';
+  static const _keyPhone = 'USER_PHONE';
 
   final SharedPreferences prefs;
   SharedPrefsLocalDataSource(this.prefs);
@@ -13,14 +15,23 @@ class SharedPrefsLocalDataSource implements LocalStorageDataSource {
   Future<void> cacheUser(UserEntity user) async {
     await prefs.setString(_keyUid, user.uid);
     await prefs.setString(_keyEmail, user.email);
+    await prefs.setString(_keyName, user.name);
+    await prefs.setString(_keyPhone, user.phone);
   }
 
   @override
   Future<UserEntity?> getCachedUser() async {
     final uid = prefs.getString(_keyUid);
     final email = prefs.getString(_keyEmail);
-    if (uid != null && email != null) {
-      return UserEntity(uid: uid, email: email);
+    final name = prefs.getString(_keyName);
+    final phone = prefs.getString(_keyPhone);
+    if (uid != null && email != null && name != null && phone != null) {
+      return UserEntity(
+        uid: uid,
+        email: email,
+        name: name,
+        phone: phone,
+      );
     }
     return null;
   }
@@ -29,5 +40,7 @@ class SharedPrefsLocalDataSource implements LocalStorageDataSource {
   Future<void> clearUser() async {
     await prefs.remove(_keyUid);
     await prefs.remove(_keyEmail);
+    await prefs.remove(_keyName);
+    await prefs.remove(_keyPhone);
   }
 }

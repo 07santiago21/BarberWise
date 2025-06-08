@@ -1,59 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'firebase_options.dart'; // generado por flutterfire
+import 'firebase_options.dart';
+
 import 'data/datasources/auth_remote_datasource_impl.dart';
 import 'data/datasources/local_storage_datasource_impl.dart';
 import 'data/repositories_impl/auth_repository_impl.dart';
+
 import 'domain/usecases/sign_in_usecase.dart';
 import 'domain/usecases/sign_up_usecase.dart';
 import 'domain/usecases/sign_out_usecase.dart';
 import 'domain/usecases/get_cached_user_usecase.dart';
+import 'domain/usecases/update_profile_usecase.dart';
+import 'domain/usecases/change_password.dart';
+
 import 'presentation/providers/auth_provider.dart';
 import 'presentation/pages/sign_in_screen.dart';
-import 'presentation/pages/main_navigation_screen.dart'; // tu pantalla principal tras login
+import 'presentation/pages/main_navigation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // 1) Inicializa formatos de fecha
   await initializeDateFormatting('es_ES', null);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // 2) Inicializa Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // 3) Inicializa SharedPreferences
   final prefs = await SharedPreferences.getInstance();
 
-  // 4) Arranca la app con todos los providers
   runApp(
     MultiProvider(
       providers: [
-        // SharedPreferences
         Provider<SharedPreferences>.value(value: prefs),
-
-        // Data sources
         Provider<AuthRemoteDataSourceImpl>(
           create: (_) => AuthRemoteDataSourceImpl(),
         ),
         Provider<SharedPrefsLocalDataSource>(
           create: (_) => SharedPrefsLocalDataSource(prefs),
         ),
-
-        // Repositorio
         Provider<AuthRepositoryImpl>(
           create: (ctx) => AuthRepositoryImpl(
             remote: ctx.read<AuthRemoteDataSourceImpl>(),
             local: ctx.read<SharedPrefsLocalDataSource>(),
           ),
         ),
-
-        // UseCases
         Provider<SignInUseCase>(
           create: (ctx) => SignInUseCase(ctx.read<AuthRepositoryImpl>()),
         ),
@@ -66,14 +56,21 @@ void main() async {
         Provider<GetCachedUserUseCase>(
           create: (ctx) => GetCachedUserUseCase(ctx.read<AuthRepositoryImpl>()),
         ),
-
-        // AuthProvider
+        Provider<UpdateProfileUseCase>(
+          create: (ctx) => UpdateProfileUseCase(ctx.read<AuthRepositoryImpl>()),
+        ),
+        Provider<ChangePasswordUseCase>(
+          create: (ctx) =>
+              ChangePasswordUseCase(ctx.read<AuthRepositoryImpl>()),
+        ),
         ChangeNotifierProvider<AuthProvider>(
           create: (ctx) => AuthProvider(
             signIn: ctx.read<SignInUseCase>(),
             signUp: ctx.read<SignUpUseCase>(),
             signOut: ctx.read<SignOutUseCase>(),
             getCached: ctx.read<GetCachedUserUseCase>(),
+            updateProfile: ctx.read<UpdateProfileUseCase>(),
+            changePassword: ctx.read<ChangePasswordUseCase>(),
           )..loadCached(),
         ),
       ],
@@ -87,10 +84,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtenemos el estado de sesión al construir
-    final isLoggedIn = context.select<AuthProvider, bool>(
-      (auth) => auth.user != null,
-    );
+    final isLoggedIn = context.select<AuthProvider, bool>((a) => a.isLoggedIn);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -104,18 +98,11 @@ class MyApp extends StatelessWidget {
           secondary: Color(0xFF4CAF50),
           error: Color(0xFFF44336),
         ),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: Colors.black),
-          bodyMedium: TextStyle(color: Colors.black),
-          titleLarge:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
         ),
       ),
-      // Si el usuario ya estaba logueado mostramos la navegación principal
       home: isLoggedIn ? const MainNavigationScreen() : const SignInScreen(),
     );
   }
