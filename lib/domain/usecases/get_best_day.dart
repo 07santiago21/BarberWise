@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+/*import 'package:intl/intl.dart';
 import '../entities/appointments.dart';
 import '../enums/time_filter.dart';
 
@@ -43,3 +43,4 @@ class GetBestDay {
     return '$weekday $day de $month';
   }
 }
+*/

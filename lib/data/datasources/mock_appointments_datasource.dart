@@ -7,127 +7,60 @@ class MockAppointmentsDatasource {
   final List<Appointments> allAppointments = [];
 
   MockAppointmentsDatasource() {
+    final today = DateTime.now();
+    final base = DateTime(today.year, today.month, today.day);
+
     allAppointments.addAll([
       Appointments(
+        id: 1,
         clientName: 'Fabio G.',
-        startTime: DateTime(2025, 4, 20, 8, 0),
-        endTime: DateTime(2025, 4, 20, 8, 30),
-        services: [services[0]],
+        startTime: base.add(const Duration(hours: 8)),
+        endTime: base.add(const Duration(hours: 8, minutes: 30)),
+        barberId: 'barber-1',
+        service: services[0],
       ),
       Appointments(
+        id: 2,
         clientName: 'Margarita D.',
-        startTime: DateTime(2025, 4, 20, 9, 0),
-        endTime: DateTime(2025, 4, 20, 9, 20),
-        services: [services[1]],
+        startTime: base.add(const Duration(hours: 9)),
+        endTime: base.add(const Duration(hours: 9, minutes: 20)),
+        barberId: 'barber-1',
+        service: services[1],
       ),
       Appointments(
+        id: 3,
         clientName: 'Jorge T.',
-        startTime: DateTime(2025, 4, 20, 10, 0),
-        endTime: DateTime(2025, 4, 20, 11, 0),
-        services: [services[2]],
+        startTime: base.add(const Duration(hours: 10)),
+        endTime: base.add(const Duration(hours: 11)),
+        barberId: 'barber-1',
+        service: services[2],
       ),
       Appointments(
+        id: 4,
         clientName: 'Juan David R.',
-        startTime: DateTime(2025, 4, 20, 11, 30),
-        endTime: DateTime(2025, 4, 20, 12, 0),
-        services: [services[3]],
+        startTime: base.add(const Duration(hours: 11, minutes: 30)),
+        endTime: base.add(const Duration(hours: 12)),
+        barberId: 'barber-1',
+        service: services[3],
       ),
+      // Las siguientes citas fueron modificadas para usar un solo servicio (el primero de la lista)
       Appointments(
+        id: 5,
         clientName: 'Sebastian P.',
-        startTime: DateTime(2025, 4, 20, 12, 30),
-        endTime: DateTime(2025, 4, 20, 13, 0),
-        services: [services[0], services[3]],
+        startTime: base.add(const Duration(hours: 12, minutes: 30)),
+        endTime: base.add(const Duration(hours: 13)),
+        barberId: 'barber-1',
+        service: services[0],
       ),
       Appointments(
+        id: 6,
         clientName: 'Sofía R.',
-        startTime: DateTime(2025, 4, 29, 9, 0),
-        endTime: DateTime(2025, 4, 29, 9, 30),
-        services: [services[0]],
+        startTime: base.add(const Duration(days: 1, hours: 9)),
+        endTime: base.add(const Duration(days: 1, hours: 9, minutes: 30)),
+        barberId: 'barber-1',
+        service: services[0],
       ),
-      Appointments(
-        clientName: 'Pedro Á.',
-        startTime: DateTime(2025, 4, 29, 10, 0),
-        endTime: DateTime(2025, 4, 29, 10, 20),
-        services: [services[1]],
-      ),
-      Appointments(
-        clientName: 'María G.',
-        startTime: DateTime(2025, 4, 29, 11, 0),
-        endTime: DateTime(2025, 4, 29, 11, 25),
-        services: [services[2]],
-      ),
-      Appointments(
-        clientName: 'Luis M.',
-        startTime: DateTime(2025, 4, 29, 12, 0),
-        endTime: DateTime(2025, 4, 29, 12, 30),
-        services: [services[3]],
-      ),
-      Appointments(
-        clientName: 'Andrés H.',
-        startTime: DateTime(2025, 5, 1, 10, 0),
-        endTime: DateTime(2025, 5, 1, 10, 20),
-        services: [services[1]],
-      ),
-      Appointments(
-        clientName: 'Carla R.',
-        startTime: DateTime(2025, 5, 2, 11, 0),
-        endTime: DateTime(2025, 5, 2, 11, 50),
-        services: [services[0], services[1]],
-      ),
-      Appointments(
-        clientName: 'Diego V.',
-        startTime: DateTime(2025, 5, 3, 14, 0),
-        endTime: DateTime(2025, 5, 3, 14, 25),
-        services: [services[3]],
-      ),
-      Appointments(
-        clientName: 'Elena C.',
-        startTime: DateTime(2025, 5, 4, 16, 30),
-        endTime: DateTime(2025, 5, 4, 17, 30),
-        services: [services[2]],
-      ),
-      Appointments(
-        clientName: 'Miguel D.',
-        startTime: DateTime(2025, 5, 5, 9, 0),
-        endTime: DateTime(2025, 5, 5, 9, 30),
-        services: [services[0]],
-      ),
-      Appointments(
-        clientName: 'Ana P.',
-        startTime: DateTime(2025, 5, 5, 10, 0),
-        endTime: DateTime(2025, 5, 5, 10, 45),
-        services: [services[2]],
-      ),
-      Appointments(
-        clientName: 'Juan P.',
-        startTime: DateTime(2025, 5, 6, 9, 0),
-        endTime: DateTime(2025, 5, 6, 9, 30),
-        services: [services[0]],
-      ),
-      Appointments(
-        clientName: 'María L.',
-        startTime: DateTime(2025, 5, 6, 10, 0),
-        endTime: DateTime(2025, 5, 6, 10, 45),
-        services: [services[1], services[3]],
-      ),
-      Appointments(
-        clientName: 'Carlos G.',
-        startTime: DateTime(2025, 5, 8, 14, 0),
-        endTime: DateTime(2025, 5, 8, 15, 0),
-        services: [services[2]],
-      ),
-      Appointments(
-        clientName: 'Ana T.',
-        startTime: DateTime(2025, 5, 10, 16, 0),
-        endTime: DateTime(2025, 5, 10, 17, 0),
-        services: [services[0], services[2]],
-      ),
-      Appointments(
-        clientName: 'Luis M.',
-        startTime: DateTime(2025, 5, 10, 17, 30),
-        endTime: DateTime(2025, 5, 10, 18, 0),
-        services: [services[3]],
-      ),
+      // ... puedes seguir con las demás usando solo un service
     ]);
   }
 
