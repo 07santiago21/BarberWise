@@ -1,5 +1,5 @@
 // lib/presentation/widgets/statistics/haircuts_bar_chart.dart
-
+/*
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -122,3 +122,4 @@ class HaircutsBarChart extends StatelessWidget {
     );
   }
 }
+*/
