@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:barber/presentation/pages/dashboard_screen.dart';
 import 'package:barber/presentation/pages/appointments_screen.dart';
 import 'package:barber/presentation/pages/statistics_screen.dart';
@@ -28,14 +27,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   late final List<Widget> _pages = [
     const DashboardScreen(),
     const AppointmentsScreen(),
-    const StatisticsScreen(),
+    //const StatisticsScreen(),
     const EditProfileScreen(),
   ];
 
   void _logout() {
-    // Invoca el logout en el provider
     context.read<AuthProvider>().logout();
-    // Navega a la pantalla de login y remueve todo el stack
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const SignInScreen()),
@@ -46,7 +43,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar global con título dinámico y botón de logout
       appBar: AppBar(
         title: Text(_titles[_selectedIndex]),
         actions: [
