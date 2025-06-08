@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:barber/presentation/colors.dart';
-import 'main_navigation_screen.dart';
+import 'package:barber/presentation/pages/main_navigation_screen.dart';
+import 'package:barber/presentation/providers/auth_provider.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -10,13 +13,50 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
-  ImageProvider? _pickedImage;
+  final _formKey = GlobalKey<FormState>();
+  final _nameCtrl = TextEditingController();
+  final _phoneCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
 
-  void _pickImage() {
-    // Simula la seleccion de una imagen local para la UI
-    setState(() {      
-      _pickedImage = const AssetImage('assets/new_profile_image.png');
-    });
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _phoneCtrl.dispose();
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onRegister() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    final auth = context.read<AuthProvider>();
+    final success = await auth.register(
+      _nameCtrl.text.trim(),
+      _phoneCtrl.text.trim(),
+      _emailCtrl.text.trim(),
+      _passCtrl.text.trim(),
+    );
+
+    setState(() => _isLoading = false);
+
+    if (success) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
+      );
+    } else {
+      final error =
+          context.read<AuthProvider>().errorMessage ?? 'Error desconocido';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error)),
+      );
+    }
   }
 
   @override
@@ -24,111 +64,103 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryBackground,
-        title: const Text(
-          'Crear cuenta',
-          style: TextStyle(color: Colors.white),
-        ),
+        title:
+            const Text('Crear cuenta', style: TextStyle(color: Colors.white)),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop()),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       backgroundColor: AppColors.primaryBackground,
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         children: [
-          Center(
-            child: Material(
-              shape: const CircleBorder(),
-              color: Colors.transparent,
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: _pickImage,
-                child: CircleAvatar(                  
-                  radius: 60,
-                  backgroundColor: AppColors.secondaryBackground,
-                  backgroundImage: _pickedImage,
-                  child: _pickedImage == null
-                      ? const Icon(Icons.person,
-                          size: 60, color: Colors.white)
-                      : null,
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _nameCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Nombre',
+                    border: OutlineInputBorder(),
+                    fillColor: AppColors.primaryBackground,
+                    filled: true,
+                  ),
+                  validator: (v) =>
+                      (v == null || v.isEmpty) ? 'Ingrese su nombre' : null,
                 ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 40),
-
-          TextFormField(
-            style: const TextStyle(color: AppColors.primaryText),
-            decoration: const InputDecoration(
-              labelText: 'Nombre',
-              labelStyle: TextStyle(color: AppColors.secondaryText),
-              border: OutlineInputBorder(),
-              fillColor: AppColors.primaryBackground,
-              filled: true,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          TextFormField(
-            style: const TextStyle(color: AppColors.primaryText),
-            decoration: const InputDecoration(
-              labelText: 'Número',
-              labelStyle: TextStyle(color: AppColors.secondaryText),
-              border: OutlineInputBorder(),
-              fillColor: AppColors.primaryBackground,
-              filled: true,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          TextFormField(
-            style: const TextStyle(color: AppColors.primaryText),
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              labelStyle: TextStyle(color: AppColors.secondaryText),
-              border: OutlineInputBorder(),
-              fillColor: AppColors.primaryBackground,
-              filled: true,
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MainNavigationScreen()),
-                );
-              },
-
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _phoneCtrl,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    labelText: 'Número',
+                    border: OutlineInputBorder(),
+                    fillColor: AppColors.primaryBackground,
+                    filled: true,
+                  ),
+                  validator: (v) =>
+                      (v == null || v.isEmpty) ? 'Ingrese su teléfono' : null,
                 ),
-              ),
-              child: const Text(
-                'Guardar',
-                style: TextStyle(
-                  color: AppColors.primaryBackground,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailCtrl,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    fillColor: AppColors.primaryBackground,
+                    filled: true,
+                  ),
+                  validator: (v) {
+                    if (v == null || v.isEmpty) return 'Ingrese su email';
+                    final pattern = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                    return pattern.hasMatch(v) ? null : 'Email inválido';
+                  },
                 ),
-              ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passCtrl,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Contraseña',
+                    border: OutlineInputBorder(),
+                    fillColor: AppColors.primaryBackground,
+                    filled: true,
+                  ),
+                  validator: (v) => (v != null && v.length >= 6)
+                      ? null
+                      : 'La contraseña debe tener al menos 6 caracteres',
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _onRegister,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            'Crear cuenta',
+                            style: TextStyle(
+                              color: AppColors.primaryBackground,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
-
-          const SizedBox(height: 20),
-
         ],
       ),
     );
