@@ -1,12 +1,9 @@
-import 'package:barber/domain/entities/appointment_entity.dart';
-import 'package:barber/domain/repositories/dashboard_repository.dart';
+import '../../domain/entities/appointment_entity_.dart';
+import '../../data/datasources/dashboard_remote_datasource.dart';
 
-class GetNextAppointmentUseCase {
-  final DashboardRepository repository;
+class GetNextAppointment {
+  final DashboardRemoteDatasource datasource;
+  GetNextAppointment(this.datasource);
 
-  GetNextAppointmentUseCase(this.repository);
-
-  Future<AppointmentEntity> call() {
-    return repository.getNextAppointment();
-  }
+  Future<Appointment> call() => datasource.fetchNextAppointment();
 }

@@ -1,70 +1,62 @@
-import 'package:flutter/material.dart';
-import 'package:barber/presentation/providers/dashboard_provider.dart';
-import 'package:barber/presentation/widgets/dashboard/greeting_header.dart';
-import 'package:barber/presentation/widgets/dashboard/daily_summary_card.dart';
-import 'package:barber/presentation/widgets/dashboard/next_appointment_card.dart';
+// lib/presentation/screens/dashboard_screen.dart
 
-class DashboardScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:barber/presentation/widgets/dashboard/greeting_header.dart';
+import 'package:barber/presentation/widgets/dashboard/next_appointment_card.dart';
+import 'package:barber/presentation/widgets/dashboard/daily_summary_card.dart';
+import 'package:barber/presentation/providers/dashboard_provider.dart';
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
-  final DashboardProvider provider = DashboardProvider();
-  bool isLoading = true;
-
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    provider.loadDashboardData().then((_) {
-      setState(() {
-        isLoading = false;
-      });
-    });
+    Future.microtask(() => ref.read(dashboardProvider.notifier).loadDashboardData());
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading || provider.nextAppointment == null || provider.dailySummary == null) {
-      return const Scaffold(
-        body: SafeArea(child: Center(child: CircularProgressIndicator())),
-      );
-    }
+    final state = ref.watch(dashboardProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             final height = constraints.maxHeight;
+
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.error != null) {
+              return Center(child: Text('Error: ${state.error}'));
+            }
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   SizedBox(
-                    height: height * 0.30,
+                    height: height * 0.25,
                     child: const GreetingHeader(),
                   ),
-
-                  const SizedBox(height: 8),
-
-                  SizedBox(
-                    height: height * 0.25,
-                    child: SizedBox.expand(
-                      child: NextAppointmentCard(appointment: provider.nextAppointment!),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
                   Expanded(
-                    child: SizedBox.expand(
-                      child: DailySummaryCard(summary: provider.dailySummary!),
-                    ),
+                    child: state.nextAppointment != null
+                        ? NextAppointmentCard(appointment: state.nextAppointment!)
+                        : const Center(child: Text('Sin turnos próximos')),
                   ),
-
+                  Expanded(
+                    child: state.summary != null
+                        ? DailySummaryCard(summary: state.summary!)
+                        : const SizedBox(),
+                  ),
                   const SizedBox(height: 12),
                 ],
               ),
