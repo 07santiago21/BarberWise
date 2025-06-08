@@ -1,7 +1,7 @@
-/*import 'package:flutter/material.dart';
+/*import 'package:barber/domain/entities/appointment_entity_.dart';
+import 'package:flutter/material.dart';
 
 import '../../domain/enums/time_filter.dart';
-import '../../domain/entities/appointments.dart';
 import '../../domain/usecases/get_appointments_by_range.dart';
 import '../../domain/usecases/count_appointments.dart';
 import '../../domain/usecases/calculate_profits.dart';
@@ -13,7 +13,7 @@ class StatisticsProvider extends ChangeNotifier {
 
   late final GetAppointmentsByRange _getByRange = GetAppointmentsByRange(
     (DateTime from, DateTime to) async {
-      final List<Appointments> all = [];
+      final List<Appointment> all = [];
       final days = to.difference(from).inDays;
       for (int i = 0; i <= days; i++) {
         final date =
@@ -30,13 +30,13 @@ class StatisticsProvider extends ChangeNotifier {
   final GetBestDay _bestDayUseCase = GetBestDay();
 
   TimeFilter _filter = TimeFilter.last7Days;
-  List<Appointments> _appointments = [];
+  List<Appointment> _appointments = [];
   double _totalProfit = 0;
   int _totalCount = 0;
   String _bestDayName = '';
 
   TimeFilter get filter => _filter;
-  List<Appointments> get appointments => _appointments;
+  List<Appointment> get appointments => _appointments;
   double get totalProfit => _totalProfit;
   int get totalCount => _totalCount;
   String get bestDayName => _bestDayName;

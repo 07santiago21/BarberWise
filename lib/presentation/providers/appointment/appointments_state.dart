@@ -1,9 +1,9 @@
 
-import 'package:barber/domain/entities/appointments.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
 
 class AppointmentsState {
   final DateTime selectedDate;
-  final List<Appointments> appointments;
+  final List<Appointment> appointments;
   final bool isLoading;
 
   const AppointmentsState({
@@ -14,7 +14,7 @@ class AppointmentsState {
 
   AppointmentsState copyWith({
     DateTime? selectedDate,
-    List<Appointments>? appointments,
+    List<Appointment>? appointments,
     bool? isLoading,
   }) {
     return AppointmentsState(

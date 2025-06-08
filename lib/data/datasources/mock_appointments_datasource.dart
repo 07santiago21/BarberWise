@@ -1,70 +1,62 @@
-import 'package:barber/domain/entities/appointments.dart';
-import 'package:barber/domain/entities/services.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
+import 'package:barber/domain/entities/services_entity_.dart';
 import 'mock_services_datasource.dart';
 
 class MockAppointmentsDatasource {
   final List<Service> services = MockServicesDatasource().services;
-  final List<Appointments> allAppointments = [];
+  final List<Appointment> allAppointments = [];
 
   MockAppointmentsDatasource() {
     final today = DateTime.now();
     final base = DateTime(today.year, today.month, today.day);
 
     allAppointments.addAll([
-      Appointments(
-        id: 1,
+      Appointment(
         clientName: 'Fabio G.',
         startTime: base.add(const Duration(hours: 8)),
         endTime: base.add(const Duration(hours: 8, minutes: 30)),
         barberId: 'barber-1',
-        service: services[0],
+        serviceId: "aaa",
       ),
-      Appointments(
-        id: 2,
+      Appointment(
         clientName: 'Margarita D.',
         startTime: base.add(const Duration(hours: 9)),
         endTime: base.add(const Duration(hours: 9, minutes: 20)),
         barberId: 'barber-1',
-        service: services[1],
+        serviceId: "bbb",
       ),
-      Appointments(
-        id: 3,
+      Appointment(
         clientName: 'Jorge T.',
         startTime: base.add(const Duration(hours: 10)),
         endTime: base.add(const Duration(hours: 11)),
         barberId: 'barber-1',
-        service: services[2],
+        serviceId: "ccc",
       ),
-      Appointments(
-        id: 4,
+      Appointment(
         clientName: 'Juan David R.',
         startTime: base.add(const Duration(hours: 11, minutes: 30)),
         endTime: base.add(const Duration(hours: 12)),
         barberId: 'barber-1',
-        service: services[3],
+        serviceId: "ddd",
       ),
-      // Las siguientes citas fueron modificadas para usar un solo servicio (el primero de la lista)
-      Appointments(
-        id: 5,
+      Appointment(
         clientName: 'Sebastian P.',
         startTime: base.add(const Duration(hours: 12, minutes: 30)),
         endTime: base.add(const Duration(hours: 13)),
         barberId: 'barber-1',
-        service: services[0],
+        serviceId: "eee",
       ),
-      Appointments(
-        id: 6,
+      Appointment(
         clientName: 'Sofía R.',
         startTime: base.add(const Duration(days: 1, hours: 9)),
         endTime: base.add(const Duration(days: 1, hours: 9, minutes: 30)),
         barberId: 'barber-1',
-        service: services[0],
+        serviceId: "fff",
       ),
-      // ... puedes seguir con las demás usando solo un service
     ]);
   }
 
-  Future<List<Appointments>> getAppointmentsFor(DateTime date) async {
+  Future<List<Appointment>> getAppointmentsFor(DateTime date) async {
     return allAppointments.where((appt) {
       final d = appt.startTime;
       return d.year == date.year && d.month == date.month && d.day == date.day;

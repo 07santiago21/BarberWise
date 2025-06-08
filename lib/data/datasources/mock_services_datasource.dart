@@ -1,30 +1,31 @@
-import '../../domain/entities/services.dart';
+import 'package:barber/domain/entities/services_entity_.dart';
+
 
 class MockServicesDatasource {
   final List<Service> services = [
     Service(
-      id: 1,
+      id: "aaa",
       name: 'Corte de pelo',
       price: 25000,
-      duration: Duration(minutes: 30),
+      duration: 30,
     ),
     Service(
-      id: 2,
+      id: "bbb",
       name: 'Depilación de cejas',
       price: 15000,
-      duration: Duration(minutes: 20),
+      duration: 20,
     ),
     Service(
-      id: 3,
+      id: "ccc",
       name: 'Coloración',
       price: 45000,
-      duration: Duration(minutes: 60),
+      duration: 60,
     ),
     Service(
-      id: 4,
+      id: "ddd",
       name: 'Corte de barba',
       price: 18000,
-      duration: Duration(minutes: 25),
+      duration: 25,
     ),
   ];
 
