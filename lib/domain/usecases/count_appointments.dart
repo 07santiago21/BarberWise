@@ -1,4 +1,4 @@
-import '../entities/appointments.dart';
+/*import '../entities/appointments.dart';
 
 class CountAppointments {
   int call(List<Appointments> appointments) {
@@ -8,3 +8,4 @@ class CountAppointments {
     );
   }
 }
+*/

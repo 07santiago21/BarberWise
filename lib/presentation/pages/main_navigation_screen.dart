@@ -17,7 +17,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   late final List<Widget> _pages = [
     const DashboardScreen(), 
     const AppointmentsScreen(),
-    const StatisticsScreen(), 
+    //const StatisticsScreen(), 
     const EditProfileScreen(),
   ];
 
