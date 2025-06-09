@@ -74,7 +74,12 @@ class _CreateReservationScreenState
         elevation: 1,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
+            );
+          },
         ),
       ),
       body: LayoutBuilder(

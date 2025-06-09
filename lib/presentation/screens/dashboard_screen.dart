@@ -36,7 +36,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             }
 
             if (state.error != null) {
-              return Center(child: Text('Error: ${state.error}'));
+              return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.25,
+                    child: const GreetingHeader(),
+                  ),
+                  Expanded(
+                    child: const Center(child: Text('Sin turnos próximos')),
+                  ),
+                  Expanded(
+                    child: state.summary != null
+                        ? DailySummaryCard(summary: state.summary!)
+                        : const SizedBox(),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            );
             }
 
             return Padding(
