@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:barber/presentation/colors.dart';
-import 'package:barber/presentation/pages/main_navigation_screen.dart';
-import 'package:barber/presentation/pages/create_account_screen.dart';
-import 'package:barber/presentation/providers/auth_provider.dart';
+import '../colors.dart';
+import 'main_navigation_screen.dart';
+import 'create_account_screen.dart';
+import '../providers.dart';
+import '../auth_notifier.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
-
   bool _isLoading = false;
 
   @override
@@ -32,8 +32,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
     setState(() => _isLoading = true);
 
-    final auth = context.read<AuthProvider>();
-    final success = await auth.login(
+    final notifier = ref.read(authNotifierProvider.notifier);
+    final success = await notifier.login(
       _emailCtrl.text.trim(),
       _passCtrl.text.trim(),
     );
@@ -41,12 +41,13 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() => _isLoading = false);
 
     if (success) {
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
       );
     } else {
-      final error = auth.errorMessage ?? 'Error desconocido';
+      final error = ref.read(authNotifierProvider).error ?? 'Error desconocido';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error)),
       );
@@ -73,7 +74,6 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo Placeholder
               Container(
                 width: 100,
                 height: 100,
@@ -87,10 +87,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                "Inicio de sesión",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
+              const Text("Inicio de sesión",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 40),
 
               // Email
@@ -147,14 +145,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                          'Ingresar',
+                      : const Text('Ingresar',
                           style: TextStyle(
-                            color: AppColors.primaryBackground,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                              color: AppColors.primaryBackground,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600)),
                 ),
               ),
               const SizedBox(height: 10),
@@ -168,10 +163,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         builder: (_) => const CreateAccountScreen()),
                   );
                 },
-                child: const Text(
-                  'Crear cuenta',
-                  style: TextStyle(color: AppColors.secondaryText),
-                ),
+                child: const Text('Crear cuenta',
+                    style: TextStyle(color: AppColors.secondaryText)),
               ),
             ],
           ),

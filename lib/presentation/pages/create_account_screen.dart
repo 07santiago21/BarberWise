@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:barber/presentation/colors.dart';
-import 'package:barber/presentation/pages/main_navigation_screen.dart';
-import 'package:barber/presentation/providers/auth_provider.dart';
+import '../colors.dart';
+import 'main_navigation_screen.dart';
+import '../providers.dart';
+import '../auth_notifier.dart';
 
-class CreateAccountScreen extends StatefulWidget {
+class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  ConsumerState<CreateAccountScreen> createState() =>
+      _CreateAccountScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
-
   bool _isLoading = false;
 
   @override
@@ -32,11 +33,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> _onRegister() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isLoading = true);
 
-    final auth = context.read<AuthProvider>();
-    final success = await auth.register(
+    final notifier = ref.read(authNotifierProvider.notifier);
+    final success = await notifier.register(
       _nameCtrl.text.trim(),
       _phoneCtrl.text.trim(),
       _emailCtrl.text.trim(),
@@ -46,13 +46,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     setState(() => _isLoading = false);
 
     if (success) {
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
       );
     } else {
-      final error =
-          context.read<AuthProvider>().errorMessage ?? 'Error desconocido';
+      final error = ref.read(authNotifierProvider).error ?? 'Error desconocido';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error)),
       );
@@ -67,9 +67,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         title:
             const Text('Crear cuenta', style: TextStyle(color: Colors.white)),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop()),
       ),
       backgroundColor: AppColors.primaryBackground,
       body: ListView(
@@ -131,7 +130,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                   validator: (v) => (v != null && v.length >= 6)
                       ? null
-                      : 'La contraseña debe tener al menos 6 caracteres',
+                      : 'Debe tener al menos 6 caracteres',
                 ),
                 const SizedBox(height: 30),
                 SizedBox(
@@ -143,19 +142,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       backgroundColor: AppColors.accent,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                          borderRadius: BorderRadius.circular(8)),
                     ),
                     child: _isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Crear cuenta',
+                        : const Text('Crear cuenta',
                             style: TextStyle(
-                              color: AppColors.primaryBackground,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                                color: AppColors.primaryBackground,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600)),
                   ),
                 ),
               ],

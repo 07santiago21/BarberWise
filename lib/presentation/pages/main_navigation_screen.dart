@@ -1,21 +1,27 @@
+// lib/presentation/pages/main_navigation_screen.dart
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:barber/presentation/pages/dashboard_screen.dart';
-import 'package:barber/presentation/pages/appointments_screen.dart';
-import 'package:barber/presentation/pages/statistics_screen.dart';
-import 'package:barber/presentation/pages/edit_profile_screen.dart';
-import 'package:barber/presentation/pages/sign_in_screen.dart';
-import 'package:barber/presentation/providers/auth_provider.dart';
+import '../colors.dart';
+import '../providers.dart';
+import '../auth_notifier.dart';
 
-class MainNavigationScreen extends StatefulWidget {
+import 'dashboard_screen.dart';
+import 'appointments_screen.dart';
+import 'statistics_screen.dart';
+import 'edit_profile_screen.dart';
+import 'sign_in_screen.dart';
+
+class MainNavigationScreen extends ConsumerStatefulWidget {
   const MainNavigationScreen({super.key});
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  ConsumerState<MainNavigationScreen> createState() =>
+      _MainNavigationScreenState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   int _selectedIndex = 0;
 
   static const _titles = [
@@ -25,17 +31,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     'Perfil',
   ];
 
-  late final List<Widget> _pages = [
-    const DashboardScreen(),
-    const AppointmentsScreen(),
-    const StatisticsScreen(),
-    const EditProfileScreen(),
+  late final List<Widget> _pages = const [
+    DashboardScreen(),
+    AppointmentsScreen(),
+    StatisticsScreen(),
+    EditProfileScreen(),
   ];
 
-  void _logout() {
-    // Invoca el logout en el provider
-    context.read<AuthProvider>().logout();
-    // Navega a la pantalla de login y remueve todo el stack
+  Future<void> _logout() async {
+    // 1) Llamamos al notifier
+    await ref.read(authNotifierProvider.notifier).logout();
+    // 2) Quitamos todo el stack y vamos a login
+    if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const SignInScreen()),
@@ -46,9 +53,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar global con título dinámico y botón de logout
       appBar: AppBar(
         title: Text(_titles[_selectedIndex]),
+        backgroundColor: AppColors.secondaryBackground,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -59,26 +67,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
+        onTap: (i) => setState(() => _selectedIndex = i),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Inicio'),
+          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Citas'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.grid_view),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Citas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Estadísticas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
+              icon: Icon(Icons.bar_chart), label: 'Estadísticas'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),
     );

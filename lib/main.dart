@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'firebase_options.dart';
-
-import 'data/datasources/auth_remote_datasource_impl.dart';
-import 'data/datasources/local_storage_datasource_impl.dart';
-import 'data/repositories_impl/auth_repository_impl.dart';
-
-import 'domain/usecases/sign_in_usecase.dart';
-import 'domain/usecases/sign_up_usecase.dart';
-import 'domain/usecases/sign_out_usecase.dart';
-import 'domain/usecases/get_cached_user_usecase.dart';
-import 'domain/usecases/update_profile_usecase.dart';
-import 'domain/usecases/change_password.dart';
-
-import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers.dart';
 import 'presentation/pages/sign_in_screen.dart';
 import 'presentation/pages/main_navigation_screen.dart';
 
@@ -26,65 +14,29 @@ void main() async {
   await initializeDateFormatting('es_ES', null);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // -------------------------------------------------------
+  // Cargamos SharedPreferences SÍNCRONO antes de arrancar
   final prefs = await SharedPreferences.getInstance();
 
+  // Arrancamos el ProviderScope sobreescribiendo nuestro
+  // sharedPrefsProvider con la instancia ya cargada.
   runApp(
-    MultiProvider(
-      providers: [
-        Provider<SharedPreferences>.value(value: prefs),
-        Provider<AuthRemoteDataSourceImpl>(
-          create: (_) => AuthRemoteDataSourceImpl(),
-        ),
-        Provider<SharedPrefsLocalDataSource>(
-          create: (_) => SharedPrefsLocalDataSource(prefs),
-        ),
-        Provider<AuthRepositoryImpl>(
-          create: (ctx) => AuthRepositoryImpl(
-            remote: ctx.read<AuthRemoteDataSourceImpl>(),
-            local: ctx.read<SharedPrefsLocalDataSource>(),
-          ),
-        ),
-        Provider<SignInUseCase>(
-          create: (ctx) => SignInUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        Provider<SignUpUseCase>(
-          create: (ctx) => SignUpUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        Provider<SignOutUseCase>(
-          create: (ctx) => SignOutUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        Provider<GetCachedUserUseCase>(
-          create: (ctx) => GetCachedUserUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        Provider<UpdateProfileUseCase>(
-          create: (ctx) => UpdateProfileUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        Provider<ChangePasswordUseCase>(
-          create: (ctx) =>
-              ChangePasswordUseCase(ctx.read<AuthRepositoryImpl>()),
-        ),
-        ChangeNotifierProvider<AuthProvider>(
-          create: (ctx) => AuthProvider(
-            signIn: ctx.read<SignInUseCase>(),
-            signUp: ctx.read<SignUpUseCase>(),
-            signOut: ctx.read<SignOutUseCase>(),
-            getCached: ctx.read<GetCachedUserUseCase>(),
-            updateProfile: ctx.read<UpdateProfileUseCase>(),
-            changePassword: ctx.read<ChangePasswordUseCase>(),
-          )..loadCached(),
-        ),
+    ProviderScope(
+      overrides: [
+        sharedPrefsProvider.overrideWithValue(prefs),
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isLoggedIn = context.select<AuthProvider, bool>((a) => a.isLoggedIn);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authNotifierProvider);
+    final loggedIn = authState.user != null;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -103,7 +55,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: isLoggedIn ? const MainNavigationScreen() : const SignInScreen(),
+      home: loggedIn ? const MainNavigationScreen() : const SignInScreen(),
     );
   }
 }
