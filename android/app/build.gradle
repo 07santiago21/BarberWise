@@ -21,7 +21,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.barber"
-        minSdk        = flutter.minSdkVersion
+        // Forzamos minSdk a 23 para compatibilidad con firebase_auth
+        minSdk        = 23
         targetSdk     = flutter.targetSdkVersion
         versionCode   = flutter.versionCode
         versionName   = flutter.versionName

@@ -5,12 +5,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Upgrade aquí:
-        classpath 'com.android.tools.build:gradle:8.2.1'
+        // Actualizamos el Android Gradle Plugin a 8.3.0
+        classpath 'com.android.tools.build:gradle:8.3.0'
         classpath 'com.google.gms:google-services:4.3.15'
     }
 }
-
 
 allprojects {
     repositories {
