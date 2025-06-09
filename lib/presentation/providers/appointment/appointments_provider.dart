@@ -9,7 +9,7 @@ import 'appointments_state.dart';
 
 // Datasource provider
 final appointmentsDatasourceProvider = Provider<ApiAppointmentsDatasource>((ref) {
-  return ApiAppointmentsDatasource(baseUrl: 'http://10.0.2.2:3000');
+  return ApiAppointmentsDatasource(baseUrl: 'https://barberwise-nest.onrender.com');
 });
 
 // Repository provider

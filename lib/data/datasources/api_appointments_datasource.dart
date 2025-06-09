@@ -18,7 +18,6 @@ class ApiAppointmentsDatasource {
     }
 
     final List data = jsonDecode(response.body);
-    print(data.map((json) => Appointment.fromJson(json)).toList());
     return data.map((json) => Appointment.fromJson(json)).toList();
   }
 
