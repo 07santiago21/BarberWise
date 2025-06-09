@@ -14,8 +14,7 @@ class DashboardRemoteDatasource {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print('Status: ${response.statusCode}');
-      print('Body: ${response.body}');
+      print("data: $data");
       return Appointment.fromJson(data);
     } else {
       throw Exception('Error al cargar el próximo turno');
@@ -23,14 +22,16 @@ class DashboardRemoteDatasource {
   }
 
   Future<SummaryEntity> fetchDailySummary() async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/appointment/daily-summary'));
 
+    
+    final response =await http.get(Uri.parse('$baseUrl/appointment/daily-summary'));
+    
+    print("response.statusCode: ${response.statusCode}");
+    
+    
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print('Status: ${response.statusCode}');
-      print('Body: ${response.body}');
-
+     
       return SummaryEntity.fromJson(data);
     } else {
       throw Exception('Error al cargar el resumen del día');
