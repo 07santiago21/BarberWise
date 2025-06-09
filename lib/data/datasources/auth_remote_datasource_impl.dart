@@ -21,7 +21,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final cred = await _auth.createUserWithEmailAndPassword(
         email: email, password: pass);
     final user = cred.user!;
-    // 1) Crea el documento en Firestore
     final doc = _firestore.collection('users').doc(user.uid);
     await doc.set({
       'uid': user.uid,
@@ -37,7 +36,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final cred =
         await _auth.signInWithEmailAndPassword(email: email, password: pass);
     final user = cred.user!;
-    // 2) Recupera el perfil desde Firestore
     final snap = await _firestore.collection('users').doc(user.uid).get();
     final data = snap.data()!;
     return UserEntity.fromMap(data);

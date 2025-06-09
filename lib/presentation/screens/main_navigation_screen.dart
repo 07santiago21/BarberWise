@@ -1,4 +1,3 @@
-// lib/presentation/pages/main_navigation_screen.dart
 import 'package:barber/presentation/screens/edit_profile_screen.dart';
 import 'package:barber/presentation/screens/statistics_screen.dart';
 import 'package:flutter/material.dart';

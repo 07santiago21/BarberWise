@@ -1,4 +1,3 @@
-
 import 'package:barber/domain/usecases/get_appointments_by_date.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +7,9 @@ class AppointmentsNotifier extends StateNotifier<AppointmentsState> {
   final GetAppointmentsByDate _getAppointments;
 
   AppointmentsNotifier(this._getAppointments)
-      : super(AppointmentsState.initial()){
-        loadAppointments();
-      }
+      : super(AppointmentsState.initial()) {
+    loadAppointments();
+  }
 
   Future<void> selectDate(DateTime date) async {
     state = state.copyWith(selectedDate: date, isLoading: true);

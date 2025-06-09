@@ -14,27 +14,22 @@ import '../domain/usecases/change_password.dart';
 
 import 'auth_notifier.dart';
 
-/// 1) SharedPreferences — aquí definimos un Provider “vacío”
-///    que sobreescribiremos en main.dart con la instancia real.
 final sharedPrefsProvider = Provider<SharedPreferences>((_) {
   throw UnimplementedError(
       'El Provider de SharedPreferences debe overridearse en main.dart');
 });
 
-/// 2) DataSources
 final authRemoteDsProvider = Provider((ref) => AuthRemoteDataSourceImpl());
 final authLocalDsProvider = Provider<SharedPrefsLocalDataSource>((ref) {
   final prefs = ref.read(sharedPrefsProvider);
   return SharedPrefsLocalDataSource(prefs);
 });
 
-/// 3) Repositorio
 final authRepoProvider = Provider((ref) => AuthRepositoryImpl(
       remote: ref.read(authRemoteDsProvider),
       local: ref.read(authLocalDsProvider),
     ));
 
-/// 4) UseCases
 final signInUseCaseProvider =
     Provider((ref) => SignInUseCase(ref.read(authRepoProvider)));
 final signUpUseCaseProvider =
@@ -48,7 +43,6 @@ final updateProfileUseCaseProvider =
 final changePasswordUseCaseProvider =
     Provider((ref) => ChangePasswordUseCase(ref.read(authRepoProvider)));
 
-/// 5) AuthNotifier
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) => AuthNotifier(
     signIn: ref.read(signInUseCaseProvider),

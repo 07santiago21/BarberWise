@@ -15,12 +15,8 @@ void main() async {
   await initializeDateFormatting('es_ES', null);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // -------------------------------------------------------
-  // Cargamos SharedPreferences SÍNCRONO antes de arrancar
   final prefs = await SharedPreferences.getInstance();
 
-  // Arrancamos el ProviderScope sobreescribiendo nuestro
-  // sharedPrefsProvider con la instancia ya cargada.
   runApp(
     ProviderScope(
       overrides: [

@@ -1,4 +1,3 @@
-
 import 'package:barber/domain/entities/appointment_entity_.dart';
 
 class AppointmentsState {

@@ -1,11 +1,10 @@
-// lib/presentation/screens/dashboard_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:barber/presentation/widgets/dashboard/greeting_header.dart';
 import 'package:barber/presentation/widgets/dashboard/next_appointment_card.dart';
 import 'package:barber/presentation/widgets/dashboard/daily_summary_card.dart';
 import 'package:barber/presentation/providers/dashboard_provider.dart';
+
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
@@ -17,7 +16,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(dashboardProvider.notifier).loadDashboardData());
+    Future.microtask(
+        () => ref.read(dashboardProvider.notifier).loadDashboardData());
   }
 
   @override
@@ -49,7 +49,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                   Expanded(
                     child: state.nextAppointment != null
-                        ? NextAppointmentCard(appointment: state.nextAppointment!)
+                        ? NextAppointmentCard(
+                            appointment: state.nextAppointment!)
                         : const Center(child: Text('Sin turnos próximos')),
                   ),
                   Expanded(

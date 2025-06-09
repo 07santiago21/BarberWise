@@ -7,23 +7,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'appointments_notifier.dart';
 import 'appointments_state.dart';
 
-// Datasource provider
-final appointmentsDatasourceProvider = Provider<ApiAppointmentsDatasource>((ref) {
-  return ApiAppointmentsDatasource(baseUrl: 'https://barberwise-nest.onrender.com');
+final appointmentsDatasourceProvider =
+    Provider<ApiAppointmentsDatasource>((ref) {
+  return ApiAppointmentsDatasource(
+      baseUrl: 'https://barberwise-nest.onrender.com');
 });
 
-// Repository provider
 final appointmentsRepositoryProvider = Provider<AppointmentsRepository>((ref) {
   return AppointmentsRepositoryImpl(ref.watch(appointmentsDatasourceProvider));
 });
 
-// Use case provider
 final getAppointmentsByDateProvider = Provider<GetAppointmentsByDate>((ref) {
   return GetAppointmentsByDate(ref.watch(appointmentsRepositoryProvider));
 });
 
-// Notifier provider
-final appointmentsProvider = StateNotifierProvider<AppointmentsNotifier, AppointmentsState>((ref) {
+final appointmentsProvider =
+    StateNotifierProvider<AppointmentsNotifier, AppointmentsState>((ref) {
   return AppointmentsNotifier(ref.watch(getAppointmentsByDateProvider));
 });
 

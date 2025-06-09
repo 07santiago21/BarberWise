@@ -1,5 +1,3 @@
-// lib/presentation/auth_notifier.dart
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/entities/user_entity.dart';
 import '../domain/usecases/sign_in_usecase.dart';
@@ -9,14 +7,12 @@ import '../domain/usecases/get_cached_user_usecase.dart';
 import '../domain/usecases/update_profile_usecase.dart';
 import '../domain/usecases/change_password.dart';
 
-/// Estado inmutable
 class AuthState {
   final UserEntity? user;
   final String? error;
   const AuthState({this.user, this.error});
 }
 
-/// Notifier
 class AuthNotifier extends StateNotifier<AuthState> {
   final SignInUseCase _signIn;
   final SignUpUseCase _signUp;

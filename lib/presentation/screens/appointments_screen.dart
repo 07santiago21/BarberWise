@@ -14,11 +14,9 @@ class AppointmentsScreen extends ConsumerWidget {
     final state = ref.watch(appointmentsProvider);
     final notifier = ref.read(appointmentsProvider.notifier);
 
-    // Función para comparar fechas (ignora horas)
     bool isSameDay(DateTime a, DateTime b) =>
         a.year == b.year && a.month == b.month && a.day == b.day;
 
-    // Filtrar las citas que coincidan con la fecha seleccionada
     final filteredAppointments = state.appointments.where((appt) {
       return isSameDay(appt.startTime, state.selectedDate);
     }).toList();
@@ -30,30 +28,30 @@ class AppointmentsScreen extends ConsumerWidget {
         child: Column(
           children: [
             Text(
-              DateFormat("d 'de' MMMM yyyy", 'es_ES').format(state.selectedDate),
+              DateFormat("d 'de' MMMM yyyy", 'es_ES')
+                  .format(state.selectedDate),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-
             DateSelector(
               selectedDate: state.selectedDate,
               onDateSelected: (date) => notifier.selectDate(date),
             ),
-
             const SizedBox(height: 8),
             Expanded(
               child: state.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : filteredAppointments.isEmpty
-                      ? const Center(child: Text("No hay citas para esta fecha"))
+                      ? const Center(
+                          child: Text("No hay citas para esta fecha"))
                       : ListView.builder(
                           itemCount: filteredAppointments.length,
                           itemBuilder: (context, index) {
-                            return AppointmentCard(appointment: filteredAppointments[index]);
+                            return AppointmentCard(
+                                appointment: filteredAppointments[index]);
                           },
                         ),
             ),
-
             const SizedBox(height: 16),
             Center(
               child: ElevatedButton(
@@ -66,13 +64,15 @@ class AppointmentsScreen extends ConsumerWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text('Crear cita', style: TextStyle(color: Colors.white)),
+                child: const Text('Crear cita',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

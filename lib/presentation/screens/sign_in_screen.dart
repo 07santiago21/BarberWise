@@ -90,8 +90,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               const Text("Inicio de sesión",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 40),
-
-              // Email
               TextFormField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
@@ -110,8 +108,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 },
               ),
               const SizedBox(height: 20),
-
-              // Contraseña
               TextFormField(
                 controller: _passCtrl,
                 obscureText: true,
@@ -130,8 +126,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 },
               ),
               const SizedBox(height: 30),
-
-              // Botón Sign in
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -153,8 +147,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-
-              // Link a crear cuenta
               TextButton(
                 onPressed: () {
                   Navigator.push(
