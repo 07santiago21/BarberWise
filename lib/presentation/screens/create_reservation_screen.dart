@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:barber/domain/entities/services_entity_.dart';
 import 'package:barber/presentation/providers/appointment_providers.dart';
 import 'package:barber/presentation/screens/main_navigation_screen.dart';
+
+import 'package:firebase_auth/firebase_auth.dart'; // ← import FirebaseAuth
 
 class CreateReservationScreen extends ConsumerStatefulWidget {
   const CreateReservationScreen({super.key});
@@ -115,6 +118,9 @@ class _CreateReservationScreenState
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.category),
                           ),
+                          validator: (_) => selectedService == null
+                              ? 'Seleccione un servicio'
+                              : null,
                         ),
                         loading: () => const CircularProgressIndicator(),
                         error: (e, _) => Text('Error: $e'),
@@ -131,6 +137,9 @@ class _CreateReservationScreenState
                               prefixIcon: Icon(Icons.calendar_today),
                               hintText: 'Selecciona una fecha y hora',
                             ),
+                            validator: (v) => v == null || v.isEmpty
+                                ? 'Hora requerida'
+                                : null,
                           ),
                         ),
                       ),
@@ -161,13 +170,22 @@ class _CreateReservationScreenState
                       if (_formKey.currentState!.validate() &&
                           selectedService != null &&
                           selectedDateTime != null) {
+                        final firebaseUser = FirebaseAuth.instance.currentUser;
+                        if (firebaseUser == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Debe iniciar sesión antes')));
+                          return;
+                        }
+                        final barberUid = firebaseUser.uid;
+
                         final start = selectedDateTime!;
                         final end = start
                             .add(Duration(minutes: selectedService!.duration));
 
                         final appointment = Appointment(
-                          clientName: nameController.text,
-                          barberId: 'barber123',
+                          clientName: nameController.text.trim(),
+                          barberId: barberUid,
                           startTime: start,
                           endTime: end,
                           serviceId: selectedService!.id,
@@ -175,7 +193,6 @@ class _CreateReservationScreenState
 
                         await notifier.submit(appointment);
 
-                        // Limpiar campos
                         nameController.clear();
                         phoneController.clear();
                         dateTimeController.clear();
