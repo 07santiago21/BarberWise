@@ -1,23 +1,25 @@
-import 'package:barber/presentation/pages/main_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:barber/presentation/pages/dashboard_screen.dart';
-import 'package:barber/domain/entities/haircut_type.dart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
+import 'package:barber/domain/entities/services_entity_.dart';
+import 'package:barber/presentation/providers/appointment_providers.dart';
+import 'package:barber/presentation/pages/main_navigation_screen.dart';
 
-class CreateReservationScreen extends StatefulWidget {
+class CreateReservationScreen extends ConsumerStatefulWidget {
   const CreateReservationScreen({super.key});
 
   @override
-  State<CreateReservationScreen> createState() => _CreateReservationScreenState();
+  ConsumerState<CreateReservationScreen> createState() => _CreateReservationScreenState();
 }
 
-class _CreateReservationScreenState extends State<CreateReservationScreen> {
+class _CreateReservationScreenState extends ConsumerState<CreateReservationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController dateTimeController = TextEditingController();
 
-  HaircutType? selectedHaircutType;
+  Service? selectedService;
   DateTime? selectedDateTime;
 
   Future<void> _selectDateTime() async {
@@ -54,8 +56,11 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final servicesAsync = ref.watch(servicesProvider);
+    final notifier = ref.read(appointmentFormProvider.notifier);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Crear reserva'),
         centerTitle: true,
@@ -64,12 +69,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
         elevation: 1,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
-                          );
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: LayoutBuilder(
@@ -91,24 +91,26 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.person),
                         ),
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty ? 'Nombre requerido' : null,
                       ),
                       const SizedBox(height: 16),
-                      DropdownButtonFormField<HaircutType>(
-                        value: selectedHaircutType,
-                        items: HaircutType.values
-                            .map(
-                              (type) => DropdownMenuItem(
-                                value: type,
-                                child: Text(type.displayName),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) => setState(() => selectedHaircutType = value),
-                        decoration: const InputDecoration(
-                          labelText: 'Tipo de reserva',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.category),
+                      servicesAsync.when(
+                        data: (services) => DropdownButtonFormField<Service>(
+                          value: selectedService,
+                          items: services.map((s) => DropdownMenuItem(
+                            value: s,
+                            child: Text(s.name),
+                          )).toList(),
+                          onChanged: (val) => setState(() => selectedService = val),
+                          decoration: const InputDecoration(
+                            labelText: 'Tipo de servicio',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.category),
+                          ),
                         ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (e, _) => Text('Error: $e'),
                       ),
                       const SizedBox(height: 16),
                       GestureDetector(
@@ -128,63 +130,71 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: phoneController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: const InputDecoration(
                           labelText: 'Celular',
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.phone),
                         ),
+                        validator: (value) =>
+                            value == null || value.length < 10 ? 'Número inválido' : null,
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 82),
-                Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final nombre = nameController.text;
-                          final tipo = selectedHaircutType?.displayName ?? 'No seleccionado';
-                          final celular = phoneController.text;
-                          final hora = selectedDateTime?.toString() ?? 'No seleccionada';
+                const SizedBox(height: 32),
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate() &&
+                          selectedService != null &&
+                          selectedDateTime != null) {
+                        final start = selectedDateTime!;
+                        final end = start.add(Duration(minutes: selectedService!.duration));
 
-                          print('📝 Reserva creada:');
-                          print('Nombre: $nombre');
-                          print('Tipo: $tipo');
-                          print('Hora: $hora');
-                          print('Celular: $celular');
+                        final appointment = Appointment(
+                          clientName: nameController.text,
+                          barberId: 'barber123',
+                          startTime: start,
+                          endTime: end,
+                          serviceId: selectedService!.id,
+                        );
 
-                          nameController.clear();
-                          phoneController.clear();
-                          dateTimeController.clear();
-                          setState(() {
-                            selectedHaircutType = null;
-                            selectedDateTime = null;
-                          });
+                        await notifier.submit(appointment);
 
+                        // Limpiar campos
+                        nameController.clear();
+                        phoneController.clear();
+                        dateTimeController.clear();
+                        setState(() {
+                          selectedService = null;
+                          selectedDateTime = null;
+                        });
+
+                        if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Reserva creada correctamente')),
+                            const SnackBar(content: Text('Reserva creada')),
                           );
-
-                          Navigator.pushReplacement(
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const MainNavigationScreen(),
+                            ),
+                            (route) => false,
                           );
                         }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text('Crear', style: TextStyle(color: Colors.white)),
                     ),
+                    child: const Text('Crear', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
