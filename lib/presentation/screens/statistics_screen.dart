@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/statistics_provider.dart';
@@ -60,3 +60,4 @@ class StatisticsScreen extends StatelessWidget {
     );
   }
 }
+*/

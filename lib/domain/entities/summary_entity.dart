@@ -1,5 +1,3 @@
-// lib/domain/entities/summary_entity.dart
-
 class SummaryEntity {
   final int completedTurns;
   final int totalTurns;

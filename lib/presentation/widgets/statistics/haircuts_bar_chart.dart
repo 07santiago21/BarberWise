@@ -1,14 +1,14 @@
 // lib/presentation/widgets/statistics/haircuts_bar_chart.dart
-
+/*
+import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/appointments.dart';
 import '../../../domain/enums/time_filter.dart';
 
 class HaircutsBarChart extends StatelessWidget {
   /// Lista de todas las citas ya filtradas en el provider
-  final List<Appointments> data;
+  final List<Appointment> data;
 
   /// Filtro actual (7, 15 o 30 días)
   final TimeFilter filter;
@@ -122,3 +122,4 @@ class HaircutsBarChart extends StatelessWidget {
     );
   }
 }
+*/

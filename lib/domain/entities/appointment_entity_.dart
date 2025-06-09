@@ -31,6 +31,7 @@ class Appointment {
         startTime: DateTime.parse(json['startTime']),
         endTime: DateTime.parse(json['endTime']),
         serviceId: json['serviceId'].toString(),
-        service: json['service'] != null ? Service.fromJson(json['service']) : null,
+        service:
+            json['service'] != null ? Service.fromJson(json['service']) : null,
       );
 }

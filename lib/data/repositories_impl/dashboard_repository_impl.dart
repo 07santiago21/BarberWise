@@ -1,15 +1,15 @@
-import 'package:barber/domain/entities/appointment_entity.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:barber/domain/entities/summary_entity.dart';
 import 'package:barber/domain/repositories/dashboard_repository.dart';
-import 'package:barber/data/datasources/mock_dashboard_datasource.dart';
+import 'package:barber/data/datasources/dashboard_remote_datasource.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
-  final DashboardRemoteDataSource dataSource;
+  final DashboardRemoteDatasource dataSource;
 
   DashboardRepositoryImpl(this.dataSource);
 
   @override
-  Future<AppointmentEntity> getNextAppointment() {
+  Future<Appointment> getNextAppointment() {
     return dataSource.fetchNextAppointment();
   }
 

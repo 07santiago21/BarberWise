@@ -8,9 +8,9 @@ class AppointmentsNotifier extends StateNotifier<AppointmentsState> {
   final GetAppointmentsByDate _getAppointments;
 
   AppointmentsNotifier(this._getAppointments)
-      : super(AppointmentsState.initial()) {
-    loadAppointments();
-  }
+      : super(AppointmentsState.initial()){
+        loadAppointments();
+      }
 
   Future<void> selectDate(DateTime date) async {
     state = state.copyWith(selectedDate: date, isLoading: true);

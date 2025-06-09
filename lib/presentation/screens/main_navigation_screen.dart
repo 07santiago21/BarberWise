@@ -39,14 +39,12 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   late final List<Widget> _pages = const [
     DashboardScreen(),
     AppointmentsScreen(),
-    StatisticsScreen(),
+    //StatisticsScreen(),
     EditProfileScreen(),
   ];
 
   Future<void> _logout() async {
-    // 1) Llamamos al notifier
     await ref.read(authNotifierProvider.notifier).logout();
-    // 2) Quitamos todo el stack y vamos a login
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -78,8 +76,6 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Inicio'),
           BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Citas'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart), label: 'Estadísticas'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),

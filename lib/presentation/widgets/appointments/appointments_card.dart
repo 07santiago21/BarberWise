@@ -1,8 +1,8 @@
+import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:flutter/material.dart';
-import '../../../domain/entities/appointments.dart';
 
 class AppointmentCard extends StatefulWidget {
-  final Appointments appointment;
+  final Appointment appointment;
 
   const AppointmentCard({super.key, required this.appointment});
 
@@ -21,16 +21,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
         '${appt.startTime.hour.toString().padLeft(2, '0')}:${appt.startTime.minute.toString().padLeft(2, '0')} - '
         '${appt.endTime.hour.toString().padLeft(2, '0')}:${appt.endTime.minute.toString().padLeft(2, '0')}';
 
-    final serviceNames = appt.services.map((s) => s.name).join(', ');
-    final price = appt.totalPrice.toStringAsFixed(0);
-    final totalDuration = appt.services.fold<Duration>(
-      Duration.zero,
-      (sum, s) => sum + s.duration,
-    );
+     final duration = appt.service?.duration;
+     final price = appt.service?.price.toStringAsFixed(0);
 
-    String formatDuration(Duration d) {
-      final h = d.inHours;
-      final m = d.inMinutes.remainder(60);
+     String formatDuration(int? minutes) {
+      if (minutes == null) return 'Duración no disponible';
+      final h = minutes ~/ 60;
+      final m = minutes % 60;
       if (h > 0) return '${h}h ${m}min';
       return '$m min';
     }
@@ -71,7 +68,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Cliente y servicios
+                    // Cliente y servicio
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -80,17 +77,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          serviceNames.isNotEmpty
-                              ? 'Servicios: $serviceNames'
-                              : 'Sin servicios',
-                        ),
+                        Text('Servicio: ${appt.service?.name}'),
                         const SizedBox(height: 4),
                         Row(
                           children: [
                             const Icon(Icons.schedule, size: 16),
                             const SizedBox(width: 4),
-                            Text(formatDuration(totalDuration)),
+                            Text(formatDuration(duration)),
                           ],
                         ),
                       ],
@@ -99,7 +92,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     Column(
                       children: [
                         const Icon(Icons.attach_money, size: 20),
-                        Text(price),
+                        Text(price ?? '-'),
                       ],
                     ),
                   ],

@@ -1,5 +1,5 @@
-import 'package:barber/domain/entities/appointments.dart';
+import 'package:barber/domain/entities/appointment_entity_.dart';
 
 abstract class AppointmentsRepository {
-  Future<List<Appointments>> getAppointmentsByADate(DateTime date);
+  Future<List<Appointment>> getAppointmentsByADate(DateTime date);
 }
