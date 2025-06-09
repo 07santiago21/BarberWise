@@ -22,7 +22,6 @@ class AppointmentsScreen extends ConsumerWidget {
     }).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Agenda de citas')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(

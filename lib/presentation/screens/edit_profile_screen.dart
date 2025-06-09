@@ -41,11 +41,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
-      appBar: AppBar(
-        title:
-            const Text('Editar Perfil', style: TextStyle(color: Colors.white)),
-        backgroundColor: AppColors.secondaryBackground,
-      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [

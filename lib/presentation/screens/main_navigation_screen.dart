@@ -28,12 +28,7 @@ class MainNavigationScreen extends ConsumerStatefulWidget {
 class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  static const _titles = [
-    'Inicio',
-    'Citas',
-    'Estadísticas',
-    'Perfil',
-  ];
+  static const _titles = ['Inicio', 'Agenda de citas', 'Editar perfil'];
 
   late final List<Widget> _pages = const [
     DashboardScreen(),
