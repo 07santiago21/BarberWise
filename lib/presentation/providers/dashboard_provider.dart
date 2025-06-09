@@ -56,6 +56,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
 
       final appointment = await _dashboardDataSource.fetchNextAppointment();
       final summary = await _dashboardDataSource.fetchDailySummary();
+      
 
       state = state.copyWith(
         nextAppointment: appointment,

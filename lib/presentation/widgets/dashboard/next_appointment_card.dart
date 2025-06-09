@@ -12,7 +12,7 @@ class NextAppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity, // 🧱 Ocupar todo el ancho disponible
+      width: double.infinity,
       child: Card(
         elevation: 4,
         color: Colors.white,
@@ -23,7 +23,6 @@ class NextAppointmentCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Columna izquierda
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,7 +50,6 @@ class NextAppointmentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              // Columna derecha
               
             ],
           ),
