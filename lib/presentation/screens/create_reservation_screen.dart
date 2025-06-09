@@ -4,16 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:barber/domain/entities/services_entity_.dart';
 import 'package:barber/presentation/providers/appointment_providers.dart';
-import 'package:barber/presentation/pages/main_navigation_screen.dart';
+import 'package:barber/presentation/screens/main_navigation_screen.dart';
 
 class CreateReservationScreen extends ConsumerStatefulWidget {
   const CreateReservationScreen({super.key});
 
   @override
-  ConsumerState<CreateReservationScreen> createState() => _CreateReservationScreenState();
+  ConsumerState<CreateReservationScreen> createState() =>
+      _CreateReservationScreenState();
 }
 
-class _CreateReservationScreenState extends ConsumerState<CreateReservationScreen> {
+class _CreateReservationScreenState
+    extends ConsumerState<CreateReservationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -92,17 +94,22 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                           prefixIcon: Icon(Icons.person),
                         ),
                         validator: (value) =>
-                            value == null || value.trim().isEmpty ? 'Nombre requerido' : null,
+                            value == null || value.trim().isEmpty
+                                ? 'Nombre requerido'
+                                : null,
                       ),
                       const SizedBox(height: 16),
                       servicesAsync.when(
                         data: (services) => DropdownButtonFormField<Service>(
                           value: selectedService,
-                          items: services.map((s) => DropdownMenuItem(
-                            value: s,
-                            child: Text(s.name),
-                          )).toList(),
-                          onChanged: (val) => setState(() => selectedService = val),
+                          items: services
+                              .map((s) => DropdownMenuItem(
+                                    value: s,
+                                    child: Text(s.name),
+                                  ))
+                              .toList(),
+                          onChanged: (val) =>
+                              setState(() => selectedService = val),
                           decoration: const InputDecoration(
                             labelText: 'Tipo de servicio',
                             border: OutlineInputBorder(),
@@ -131,14 +138,17 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                       TextFormField(
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         decoration: const InputDecoration(
                           labelText: 'Celular',
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.phone),
                         ),
-                        validator: (value) =>
-                            value == null || value.length < 10 ? 'Número inválido' : null,
+                        validator: (value) => value == null || value.length < 10
+                            ? 'Número inválido'
+                            : null,
                       ),
                     ],
                   ),
@@ -152,7 +162,8 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                           selectedService != null &&
                           selectedDateTime != null) {
                         final start = selectedDateTime!;
-                        final end = start.add(Duration(minutes: selectedService!.duration));
+                        final end = start
+                            .add(Duration(minutes: selectedService!.duration));
 
                         final appointment = Appointment(
                           clientName: nameController.text,
@@ -194,7 +205,8 @@ class _CreateReservationScreenState extends ConsumerState<CreateReservationScree
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text('Crear', style: TextStyle(color: Colors.white)),
+                    child: const Text('Crear',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

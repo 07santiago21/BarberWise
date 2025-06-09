@@ -6,11 +6,11 @@ import 'package:barber/domain/entities/appointment_entity_.dart';
 import 'package:barber/domain/entities/summary_entity.dart';
 
 class DashboardRemoteDatasource {
-  final String baseUrl = 'http://localhost:3000';
+  final String baseUrl = 'https://barberwise-nest.onrender.com';
 
   Future<Appointment> fetchNextAppointment() async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/appointment/next-appointment'));
+    final response = await http
+        .get(Uri.parse('$baseUrl/appointment/next-appointment/barber123'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -22,16 +22,14 @@ class DashboardRemoteDatasource {
   }
 
   Future<SummaryEntity> fetchDailySummary() async {
+    final response = await http
+        .get(Uri.parse('$baseUrl/appointment/daily-summary/barber123'));
 
-    
-    final response =await http.get(Uri.parse('$baseUrl/appointment/daily-summary'));
-    
     print("response.statusCode: ${response.statusCode}");
-    
-    
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-     
+
       return SummaryEntity.fromJson(data);
     } else {
       throw Exception('Error al cargar el resumen del día');

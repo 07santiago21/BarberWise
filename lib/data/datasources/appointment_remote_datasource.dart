@@ -4,7 +4,7 @@ import 'package:barber/domain/entities/services_entity_.dart';
 import 'package:http/http.dart' as http;
 
 class AppointmentRemoteDatasource {
-  final String baseUrl = 'http://localhost:3000';
+  final String baseUrl = 'https://barberwise-nest.onrender.com';
 
   Future<List<Service>> getServices() async {
     final response = await http.get(Uri.parse('$baseUrl/service'));

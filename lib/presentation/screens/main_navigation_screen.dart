@@ -1,9 +1,9 @@
 // lib/presentation/pages/main_navigation_screen.dart
-import 'package:barber/presentation/pages/edit_profile_screen.dart';
-import 'package:barber/presentation/pages/statistics_screen.dart';
+import 'package:barber/presentation/screens/edit_profile_screen.dart';
+import 'package:barber/presentation/screens/statistics_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:barber/presentation/pages/dashboard_screen.dart';
-import 'package:barber/presentation/pages/appointments_screen.dart';
+import 'package:barber/presentation/screens/dashboard_screen.dart';
+import 'package:barber/presentation/screens/appointments_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

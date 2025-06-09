@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 import 'presentation/providers.dart';
-import 'presentation/pages/sign_in_screen.dart';
-import 'presentation/pages/main_navigation_screen.dart';
+import 'presentation/screens/sign_in_screen.dart';
+import 'presentation/screens/main_navigation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
